@@ -10,7 +10,7 @@
 
 - **实时双栏预览**：同时查看完整小票与可独立滚动的票面细节。
 - **自动计算金额**：添加、编辑或删除项目时自动更新小计与总额，支持负数抵扣和自定义加急倍数。
-- **四种货币与语言**：人民币（CNY，简体中文）、美元（USD，English）、日元（JPY，日本語）和韩元（KRW，한국어），默认人民币。切换时同步更新界面与小票上的固定文字、货币符号和代码；不会进行汇率换算，金额数值保持不变。
+- **八种货币选项与地区语言**：人民币（CNY / ¥，简体中文）、新台币（TWD / NT$，台湾繁体中文）、港币（HKD / HK$，香港繁体中文）、FF14 简中服金币（GIL / 金币，简体中文）、FF14 繁中服 gil（GIL / gil，繁体中文）、美元（USD / $，English）、日元（JPY / ¥，日本語）和韩元（KRW / ₩，한국어）。首次打开和重置时默认人民币。切换时，界面、提示、小票固定文字，以及尚未自行修改的默认抬头、项目和备注都会使用对应语言；货币符号与缩写也会同步更新。台湾与香港分别采用「上传／上载」「社群媒体／社交媒体」「宽度／阔度」「急件费／特快处理费」等地区用语，不会只替换繁简字形。金额数值不变，不进行汇率换算。自行填写的抬头、副标题、项目、备注和页脚，以及上传图片中的文字均保留原样。GIL 是游戏内货币的显示单位，不是 ISO 法定货币代码；两个 FF14 服务器分别以 FF14_CN 和 FF14_TW 储存。
 - **自由编辑内容**：自定义抬头、时间范围、项目、备注、页脚，以及大标题下方的副标题；副标题默认为 `RECEIPT`，也可改成任意文字或留空隐藏。
 - **顶部与尾部图片**：分别上传图片，按比例适配票宽，不裁剪。
 - **自动本地暂存**：在同一浏览器和网址下恢复编辑内容、所选货币与图片；兼容较早版本的暂存数据。
@@ -61,7 +61,7 @@ Paper is a simple receipt maker. Edit line items, amounts, and receipt text; tot
 
 - **Live two-panel preview:** See the complete receipt and scroll through its details independently.
 - **Automatic totals:** Add, edit, or remove line items and see the subtotal and total update instantly. Negative amounts can be used for deductions, and the rush multiplier is adjustable.
-- **Four currencies and languages:** Chinese yuan (CNY, Simplified Chinese), US dollar (USD, English), Japanese yen (JPY, Japanese), and Korean won (KRW, Korean). CNY is selected by default. Changing the selection updates the interface, fixed receipt labels, currency symbol, and code. Amounts are not converted and their numeric values stay the same.
+- **Eight currency options and regional languages:** CNY / ¥ (Simplified Chinese), TWD / NT$ (Taiwan Traditional Chinese), HKD / HK$ (Hong Kong Traditional Chinese), FF14 Simplified Chinese server gold / 金币 (GIL, Simplified Chinese), FF14 Traditional Chinese server gil (GIL, Traditional Chinese), USD / $, JPY / ¥, and KRW / ₩. CNY is selected on a fresh visit and after reset. Switching updates the interface, messages, fixed receipt labels, untouched examples, currency symbol, and display code. Taiwan and Hong Kong use distinct regional wording rather than a script-only conversion. User-entered titles, subtitles, items, notes, and footer text remain unchanged, as does text within uploaded images. Numeric amounts stay the same; no exchange-rate conversion is performed. GIL is an in-game currency label, not an ISO fiat code. The two server options are stored separately as FF14_CN and FF14_TW.
 - **Editable receipt text:** Customize the title, service period, line items, notes, footer, and subtitle beneath the main title. The subtitle defaults to `RECEIPT`; enter your own text or leave it blank to hide it.
 - **Header and footer images:** Upload separate images; each scales proportionally to the receipt width without cropping.
 - **Automatic local drafts:** Restore your content, selected currency, and images in the same browser at the same address. Earlier draft formats are supported.

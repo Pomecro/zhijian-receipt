@@ -41,18 +41,31 @@ header .brand{padding-left:40px}.header-right{width:100%;justify-content:flex-en
 .toast{top:24px;bottom:auto;background:#707070;transform:translate(-50%,-20px);line-height:1.6}
 @media(max-width:420px){header .brand{padding-left:12px;gap:7px}.brand-name{font-size:20px}.wordmark{font-size:8px;letter-spacing:1px}.brand-mark{width:24px}.header-right{gap:8px;padding:0 10px}.header-right .button{padding:9px 8px;font-size:12px}.author-link svg{width:13px}}
 
+/* Longer currency units must not overlap the amount input. */
+.amount-wrap input{padding-left:var(--currency-symbol-width,28px)}
 /* Locale controls and flexible translated labels. */
 select{font:inherit;width:100%;min-height:43px;border:1px solid #ddd;border-radius:5px;background:#fff;color:#191919;padding:11px 12px;font-size:14px;cursor:pointer}select:focus-visible{outline:2px solid #111;outline-offset:3px}.currency-field{margin:0 0 30px}.currency-hint{font-size:12px;line-height:1.6;color:#888}.section-head{flex-wrap:wrap}.upload small{line-height:1.6}.intro{margin-bottom:22px}.preview-label{white-space:normal;height:auto;min-height:32px;flex-basis:auto;font-size:13px}.toggle-label{flex-wrap:wrap}.summary{flex-wrap:wrap}.formula{overflow-wrap:anywhere}
+:root:lang(zh-TW){font-family:Inter,"PingFang TC","Microsoft JhengHei",sans-serif}:root:lang(zh-HK){font-family:Inter,"PingFang HK","Microsoft JhengHei",sans-serif}
 :root:lang(ja){font-family:Arial,"Yu Gothic","Meiryo",sans-serif}:root:lang(ko){font-family:Arial,"Malgun Gothic",sans-serif}
 @media(max-width:1100px){.header-right .auto-hint{display:none}}
 @media(max-width:420px){:root:not(:lang(zh-CN)) .brand-name{font-size:16px;letter-spacing:0}:root:not(:lang(zh-CN)) .header-right .button{font-size:11px;padding:9px 6px}.header-right{gap:6px}}
+/* Keep mobile editing geometry stable when an embedded browser opens its keyboard.
+   Width-based preview sizing avoids keyboard-driven viewport-height changes. */
+@media(max-width:850px){
+  .workspace{min-height:0}
+  .preview-inner{height:clamp(550px,150vw,800px)}
+}
+/* Include narrow windows and touch devices in landscape; retain pinch zoom. */
+@media(max-width:850px),(any-pointer:coarse){
+  .editor input:not([type=checkbox]):not([type=file]),.editor textarea,.editor #note,.editor select{font-size:16px}
+}
 </style>
 </head>
 <body>
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg"><symbol id="download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 15v5h14v-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7h8M8 11h2m4 0h2m-8 4h2m4 0h2" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 10v7m4-7v7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
 <header><div class="brand"><svg class="brand-mark" viewBox="0 0 34 40" fill="none" aria-hidden="true"><path d="M4 2l4 3 4-3 5 3 5-3 4 3 4-3v36l-4-3-4 3-5-3-5 3-4-3-4 3Z" stroke="currentColor" stroke-width="1.5"/><path d="M10 13h14M10 19h14M10 25h9" stroke="currentColor" stroke-width="1.5"/></svg><div><div class="brand-name">纸间</div><div class="wordmark">PAPERWORK</div></div></div><div class="header-right"><span class="auto-hint"><svg aria-hidden="true"><use href="#calc"/></svg>自动计算金额</span><button type="button" class="button primary" id="reset">一键重置</button><a class="button primary author-link" href="https://github.com/Pomecro" target="_blank" rel="noopener noreferrer">前往作者GIT页<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></header>
 <main class="workspace">
-<div class="editor" role="region" aria-label="小票编辑" tabindex="0"><div class="page-kicker">THE RECEIPT STUDIO</div><h1>一张小票，刚刚好。</h1><p class="intro">可自动计算金额、上传图片、提供多种语言支持</p><label class="field currency-field"><span>货币与语言</span><select id="currency"><option value="CNY">人民币 · 中文（CNY ¥）</option><option value="USD">美元 · English（USD $）</option><option value="JPY">日元 · 日本語（JPY ¥）</option><option value="KRW">韩元 · 한국어（KRW ₩）</option></select><small class="currency-hint">切换票面语言与货币，金额数值保持不变。</small></label><div class="mobile-hint" hidden><svg aria-hidden="true"><use href="#calc"/></svg>自动计算金额</div>
+<div class="editor" role="region" aria-label="小票编辑" tabindex="0"><div class="page-kicker">THE RECEIPT STUDIO</div><h1>一张小票，刚刚好。</h1><p class="intro">可自动计算金额、上传图片、提供多种语言支持</p><label class="field currency-field"><span>货币与语言</span><select id="currency"><option value="CNY">人民币 · 中文（CNY ¥）</option><option value="TWD">新臺幣 · 繁體中文（臺灣）（TWD NT$）</option><option value="HKD">港幣 · 繁體中文（香港）（HKD HK$）</option><option value="FF14_CN">FF14 简中服金币 · 简体中文（GIL）</option><option value="FF14_TW">FF14 繁中服 gil · 繁體中文（GIL）</option><option value="USD">美元 · English（USD $）</option><option value="JPY">日元 · 日本語（JPY ¥）</option><option value="KRW">韩元 · 한국어（KRW ₩）</option></select><small class="currency-hint">切换票面语言与货币，金额数值保持不变。</small></label><div class="mobile-hint" hidden><svg aria-hidden="true"><use href="#calc"/></svg>自动计算金额</div>
 <section class="section"><div class="section-head"><h2><span class="section-no">01</span>小票抬头</h2><span class="optional">你的名字，你的风格</span></div><label class="upload" id="upload-zone"><input type="file" id="image-input" accept="image/png,image/jpeg,image/webp"><span class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 6-6 4 4 3-3 5 5"/></svg></span><span><strong id="upload-text">上传顶部图片</strong><small>PNG、JPG、WebP · 图片等比适应票宽</small></span><span class="upload-end">＋</span></label><button id="remove-image" class="link-button" hidden>移除图片</button><label class="field"><span>抬头名称</span><input id="title" value="好事发生工作室" maxlength="120" placeholder="输入小票抬头"></label><label class="field"><span>副标题文字</span><input id="subtitle" value="RECEIPT" maxlength="120" placeholder="输入副标题，留空则隐藏"></label></section>
 <section class="section"><div class="section-head"><h2><span class="section-no">02</span>时间范围</h2></div><div class="date-row"><label class="field"><span>开始时间</span><input type="datetime-local" id="start" required></label><label class="field"><span>结束时间</span><input type="datetime-local" id="end" required></label></div><p id="date-error" class="date-error" role="alert" hidden>请填写完整时间，结束时间需不早于开始时间。</p></section>
 <section class="section"><div class="section-head"><h2><span class="section-no">03</span>项目明细</h2><span class="optional" id="item-count">3 个项目</span></div><div class="item-labels"><span>项目名称</span><span id="amount-label">金额 / CNY</span><span></span></div><div id="items"></div><button class="button add-item" id="add-item"><span aria-hidden="true">＋</span>添加一个项目</button></section>
@@ -67,8 +80,684 @@ select{font:inherit;width:100%;min-height:43px;border:1px solid #ddd;border-radi
 const $=id=>document.getElementById(id);
 const state={footerImage:null,footerImageName:'',items:[{id:1,name:'品牌视觉设计',amount:'800'},{id:2,name:'社交媒体封面',amount:'200'},{id:3,name:'文件整理与交付',amount:'100'}],nextId:4,image:null,imageName:''};
 
-const translations={"纸间": ["Paper", "紙間", "페이퍼"], "纸间 · 小票生成器": ["Paper · Receipt Generator", "紙間 · レシート作成", "페이퍼 · 영수증 만들기"], "自动计算金额": ["Automatic totals", "金額を自動計算", "금액 자동 계산"], "一键重置": ["Reset", "リセット", "초기화"], "前往作者GIT页": ["Author’s GitHub", "作者のGitHub", "제작자 GitHub"], "一张小票，刚刚好。": ["A receipt, just right.", "ちょうどいい、一枚のレシート。", "딱 좋은 영수증 한 장."], "可自动计算金额、上传图片、提供多种语言支持": ["Automatic totals, image uploads, and multilingual support.", "金額の自動計算、画像のアップロード、多言語に対応。", "금액 자동 계산, 이미지 업로드, 다국어 지원."], "货币与语言": ["Currency & language", "通貨と言語", "통화 및 언어"], "人民币 · 中文（CNY ¥）": ["Chinese yuan · 中文 (CNY ¥)", "人民元 · 中文 (CNY ¥)", "위안 · 中文 (CNY ¥)"], "美元 · English（USD $）": ["US dollar · English (USD $)", "米ドル · English (USD $)", "미국 달러 · English (USD $)"], "日元 · 日本語（JPY ¥）": ["Japanese yen · 日本語 (JPY ¥)", "日本円 · 日本語 (JPY ¥)", "엔 · 日本語 (JPY ¥)"], "韩元 · 한국어（KRW ₩）": ["Korean won · 한국어 (KRW ₩)", "韓国ウォン · 한국어 (KRW ₩)", "원 · 한국어 (KRW ₩)"], "切换票面语言与货币，金额数值保持不变。": ["Changes the language and currency; amounts stay the same.", "言語と通貨を切り替えます。金額の数値は変わりません。", "언어와 통화가 변경되며 금액의 숫자는 유지됩니다."], "小票抬头": ["Receipt header", "レシートのヘッダー", "영수증 머리말"], "你的名字，你的风格": ["Your name, your style", "あなたの名前、あなたらしく", "나만의 이름, 나만의 스타일"], "上传顶部图片": ["Upload header image", "上部の画像をアップロード", "상단 이미지 업로드"], "PNG、JPG、WebP · 图片等比适应票宽": ["PNG, JPG, WebP · Scaled to fit the receipt", "PNG・JPG・WebP · 縦横比を保って幅に合わせます", "PNG, JPG, WebP · 비율을 유지하여 너비에 맞춤"], "移除图片": ["Remove image", "画像を削除", "이미지 삭제"], "抬头名称": ["Title", "タイトル", "제목"], "输入小票抬头": ["Enter receipt title", "レシートのタイトルを入力", "영수증 제목 입력"], "副标题文字": ["Subtitle", "サブタイトル", "부제목"], "输入副标题，留空则隐藏": ["Enter subtitle; leave blank to hide", "サブタイトルを入力（空欄で非表示）", "부제목 입력 (비워두면 숨김)"], "时间范围": ["Service period", "対象期間", "서비스 기간"], "开始时间": ["Start", "開始日時", "시작 일시"], "结束时间": ["End", "終了日時", "종료 일시"], "请填写完整时间，结束时间需不早于开始时间。": ["Enter both dates. The end must be on or after the start.", "開始日時と終了日時を入力してください。終了日時は開始日時以降にしてください。", "시작 및 종료 일시를 모두 입력하세요. 종료 일시는 시작 일시보다 빠를 수 없습니다."], "项目明细": ["Line items", "明細", "항목 내역"], "项目名称": ["Item name", "項目名", "항목명"], "添加一个项目": ["Add an item", "項目を追加", "항목 추가"], "加急与备注": ["Rush fee & notes", "特急料金と備考", "긴급 작업 요금 및 비고"], "加急费": ["Rush fee", "特急料金", "긴급 작업 요금"], "按项目小计乘以倍数计算总额": ["Total = subtotal × multiplier", "小計に倍率を掛けて合計を計算", "소계에 배수를 곱하여 합계 계산"], "加急倍数": ["Rush multiplier", "特急料金の倍率", "긴급 작업 배수"], "底部备注": ["Notes", "備考", "비고"], "可选": ["Optional", "任意", "선택 사항"], "备注文字": ["Note text", "備考の内容", "비고 내용"], "写一句备注，或留一句谢谢。": ["Add a note or a word of thanks.", "備考や感謝の言葉を添えて。", "메모나 감사 인사를 남겨보세요."], "小票页脚文字": ["Footer text", "フッターの文字", "하단 문구"], "输入页脚文字，留空则隐藏": ["Enter footer text; leave blank to hide", "フッターの文字を入力（空欄で非表示）", "하단 문구 입력 (비워두면 숨김)"], "小票尾部图片": ["Footer image", "下部の画像", "하단 이미지"], "可选 · 上下留白": ["Optional · Space above and below", "任意 · 上下に余白", "선택 사항 · 위아래 여백"], "上传尾部图片": ["Upload footer image", "下部の画像をアップロード", "하단 이미지 업로드"], "合计金额": ["Total amount", "合計金額", "합계 금액"], "小票编辑": ["Receipt editor", "レシート編集", "영수증 편집"], "小票实时预览": ["Live receipt preview", "レシートのリアルタイムプレビュー", "영수증 실시간 미리보기"], "小票预览": ["Receipt preview", "レシートのプレビュー", "영수증 미리보기"], "完整预览": ["Overview", "全体表示", "전체 보기"], "完整小票预览": ["Full receipt preview", "レシート全体のプレビュー", "영수증 전체 미리보기"], "细节预览 · 上下滚动": ["Details · Scroll", "詳細 · スクロール", "상세 보기 · 스크롤"], "小票细节滚动预览": ["Scrollable receipt details", "レシート詳細のスクロール表示", "영수증 상세 스크롤 보기"], "保存小票 PNG": ["Save receipt PNG", "PNGで保存", "PNG로 저장"], "所见即所得": ["What you see is what you save", "表示どおりに保存", "보이는 그대로 저장"], "本地生成不上传": ["Created locally, never uploaded", "端末内で生成・送信なし", "기기 내 생성 · 업로드 없음"], "小票为模板非AI生图": ["Template-based receipt, no AI images", "テンプレート式・AI画像生成ではありません", "템플릿 기반 영수증 · AI 이미지 아님"], "项目 {n} 名称": ["Item {n} name", "項目 {n} の名前", "항목 {n} 이름"], "项目 {n} 金额": ["Item {n} amount", "項目 {n} の金額", "항목 {n} 금액"], "删除项目 {n}": ["Remove item {n}", "項目 {n} を削除", "항목 {n} 삭제"], "{n} 个项目": ["{n} items", "{n} 項目", "{n}개 항목"], "还没有项目，添加第一笔吧。": ["No items yet. Add your first item.", "項目がありません。最初の項目を追加しましょう。", "아직 항목이 없습니다. 첫 항목을 추가하세요."], "请填写有效金额，最多两位小数（负数可用于抵扣）。": ["Enter valid amounts with up to 2 decimal places (negative values deduct).", "金額は小数点以下2桁までで入力してください（負の値は値引き）。", "소수점 이하 두 자리까지 유효한 금액을 입력하세요 (음수는 차감)."], "加急倍数请填写 1–100，最多两位小数。": ["Enter a multiplier from 1 to 100, with up to 2 decimal places.", "倍率は1～100の範囲で、小数点以下2桁までで入力してください。", "배수는 1~100 범위에서 소수점 이하 두 자리까지 입력하세요."], "合计 = {subtotal} × {rate}（加急费 {rush}）": ["Total = {subtotal} × {rate} (rush fee {rush})", "合計 = {subtotal} × {rate}（特急料金 {rush}）", "합계 = {subtotal} × {rate} (긴급 작업 요금 {rush})"], "合计 = 项目小计": ["Total = subtotal", "合計 = 小計", "합계 = 소계"], "未命名小票": ["Untitled receipt", "無題のレシート", "제목 없는 영수증"], "未设置": ["Not set", "未設定", "미설정"], "项目 / ITEM": ["ITEM", "項目 / ITEM", "항목 / ITEM"], "金额 / {code}": ["AMOUNT / {code}", "金額 / {code}", "금액 / {code}"], "暂无项目": ["No items", "項目なし", "항목 없음"], "未命名项目": ["Untitled item", "名称未設定", "이름 없는 항목"], "项目小计": ["Subtotal", "小計", "소계"], "合计": ["Total", "合計", "합계"], "备注 / NOTE": ["NOTE", "備考 / NOTE", "비고 / NOTE"], "待填写": ["Not entered", "未入力", "미입력"], "{title}，{n} 个项目，合计 {amount} {code}": ["{title}, {n} items, total {amount} {code}", "{title}、{n}項目、合計 {amount} {code}", "{title}, {n}개 항목, 합계 {amount} {code}"], "完整预览：": ["Overview: ", "全体表示：", "전체 보기: "], "请先检查时间、项目金额和加急倍数。": ["Check the dates, amounts, and rush multiplier first.", "日時、金額、特急料金の倍率を確認してください。", "일시, 항목 금액, 긴급 작업 배수를 먼저 확인하세요."], "图片生成失败，请重试。": ["Image generation failed. Please try again.", "画像の生成に失敗しました。もう一度お試しください。", "이미지를 생성하지 못했습니다. 다시 시도하세요."], "小票": ["Receipt", "レシート", "영수증"], "小票已生成，PNG 下载已开始。": ["Receipt created. Your PNG download has started.", "レシートを作成しました。PNGのダウンロードを開始しました。", "영수증이 생성되어 PNG 다운로드를 시작했습니다."], "本地暂存失败，可能是浏览器限制或空间不足；当前内容仍可导出。": ["Local save failed, possibly due to browser restrictions or storage limits. You can still export.", "ブラウザーの制限または空き容量不足により保存できませんでした。現在の内容は書き出せます。", "브라우저 제한이나 저장 공간 부족으로 임시 저장에 실패했습니다. 현재 내용은 내보낼 수 있습니다."], "无法读取本地暂存，已使用默认配置。": ["Could not restore your draft. Defaults have been loaded.", "保存した内容を読み込めなかったため、初期設定を使用しています。", "임시 저장 내용을 불러오지 못해 기본 설정을 적용했습니다."], "请上传 PNG、JPG 或 WebP 图片。": ["Upload a PNG, JPG, or WebP image.", "PNG、JPG、WebPのいずれかの画像をアップロードしてください。", "PNG, JPG 또는 WebP 이미지를 업로드하세요."], "图片请控制在 20 MB 以内。": ["Keep each image within 20 MB.", "画像は20 MB以下にしてください。", "이미지는 20 MB 이내여야 합니다."], "图片过长，请使用高度不超过宽度 8 倍的图片。": ["Image too tall. Height must not exceed 8 times the width.", "画像が縦に長すぎます。高さは幅の8倍以内にしてください。", "이미지가 너무 깁니다. 높이가 너비의 8배 이하인 이미지를 사용하세요."], "图片无法读取，请换一张图片。": ["Unable to read this image. Try another one.", "画像を読み込めません。別の画像をお試しください。", "이미지를 읽을 수 없습니다. 다른 이미지를 사용하세요."], "已重置～": ["Reset complete.", "リセットしました。", "초기화되었습니다."], "好事发生工作室": ["Good Things Studio", "いいことスタジオ", "좋은 일 스튜디오"], "品牌视觉设计": ["Brand visual design", "ブランドのビジュアルデザイン", "브랜드 비주얼 디자인"], "社交媒体封面": ["Social media cover", "SNSカバー画像", "소셜 미디어 커버 이미지"], "文件整理与交付": ["File organization and delivery", "ファイルの整理と納品", "파일 정리 및 전달"], "感谢信任，期待下一次合作。\n愿每一份认真，都有回响。": ["Thank you for your trust. We look forward to working with you again.\nMay every sincere effort make a difference.", "ご信頼いただきありがとうございます。またご一緒できる日を楽しみにしています。\n一つひとつの真摯な取り組みが、実を結びますように。", "믿고 맡겨주셔서 감사합니다. 다음에도 함께하길 기대합니다.\n모든 정성이 좋은 결실로 이어지기를 바랍니다."]};
-const currencies={CNY:{symbol:'¥',lang:'zh-CN',locale:'zh-CN',index:-1},USD:{symbol:'$',lang:'en',locale:'en-US',index:0},JPY:{symbol:'¥',lang:'ja',locale:'ja-JP',index:1},KRW:{symbol:'₩',lang:'ko',locale:'ko-KR',index:2}};
+const translations={
+  "纸间": [
+    "Paper",
+    "紙間",
+    "페이퍼",
+    "紙間",
+    "紙間"
+  ],
+  "纸间 · 小票生成器": [
+    "Paper · Receipt Generator",
+    "紙間 · レシート作成",
+    "페이퍼 · 영수증 만들기",
+    "紙間 · 收據產生器",
+    "紙間 · 收據製作工具"
+  ],
+  "自动计算金额": [
+    "Automatic totals",
+    "金額を自動計算",
+    "금액 자동 계산",
+    "自動計算金額",
+    "自動計算金額"
+  ],
+  "一键重置": [
+    "Reset",
+    "リセット",
+    "초기화",
+    "一鍵重設",
+    "一鍵重設"
+  ],
+  "前往作者GIT页": [
+    "Author’s GitHub",
+    "作者のGitHub",
+    "제작자 GitHub",
+    "前往作者 GitHub 頁面",
+    "前往作者 GitHub 頁面"
+  ],
+  "一张小票，刚刚好。": [
+    "A receipt, just right.",
+    "ちょうどいい、一枚のレシート。",
+    "딱 좋은 영수증 한 장.",
+    "一張收據，剛剛好。",
+    "一張收據，剛剛好。"
+  ],
+  "可自动计算金额、上传图片、提供多种语言支持": [
+    "Automatic totals, image uploads, and multilingual support.",
+    "金額の自動計算、画像のアップロード、多言語に対応。",
+    "금액 자동 계산, 이미지 업로드, 다국어 지원.",
+    "自動計算金額、上傳圖片，支援多種語言",
+    "自動計算金額、上載圖片，支援多種語言"
+  ],
+  "货币与语言": [
+    "Currency & language",
+    "通貨と言語",
+    "통화 및 언어",
+    "貨幣與語言",
+    "貨幣與語言"
+  ],
+  "人民币 · 中文（CNY ¥）": [
+    "Chinese yuan · 中文 (CNY ¥)",
+    "人民元 · 中文 (CNY ¥)",
+    "위안 · 中文 (CNY ¥)",
+    "人民幣 · 簡體中文（CNY ¥）",
+    "人民幣 · 簡體中文（CNY ¥）"
+  ],
+  "美元 · English（USD $）": [
+    "US dollar · English (USD $)",
+    "米ドル · English (USD $)",
+    "미국 달러 · English (USD $)",
+    "美元 · English（USD $）",
+    "美元 · English（USD $）"
+  ],
+  "日元 · 日本語（JPY ¥）": [
+    "Japanese yen · 日本語 (JPY ¥)",
+    "日本円 · 日本語 (JPY ¥)",
+    "엔 · 日本語 (JPY ¥)",
+    "日圓 · 日本語（JPY ¥）",
+    "日圓 · 日本語（JPY ¥）"
+  ],
+  "韩元 · 한국어（KRW ₩）": [
+    "Korean won · 한국어 (KRW ₩)",
+    "韓国ウォン · 한국어 (KRW ₩)",
+    "원 · 한국어 (KRW ₩)",
+    "韓元 · 한국어（KRW ₩）",
+    "韓圜 · 한국어（KRW ₩）"
+  ],
+  "切换票面语言与货币，金额数值保持不变。": [
+    "Changes the language and currency; amounts stay the same.",
+    "言語と通貨を切り替えます。金額の数値は変わりません。",
+    "언어와 통화가 변경되며 금액의 숫자는 유지됩니다.",
+    "切換收據語言與貨幣，金額數值維持不變。",
+    "切換收據語言及貨幣，金額數值保持不變。"
+  ],
+  "小票抬头": [
+    "Receipt header",
+    "レシートのヘッダー",
+    "영수증 머리말",
+    "收據抬頭",
+    "收據標題"
+  ],
+  "你的名字，你的风格": [
+    "Your name, your style",
+    "あなたの名前、あなたらしく",
+    "나만의 이름, 나만의 스타일",
+    "你的名字，你的風格",
+    "你的名字，你的風格"
+  ],
+  "上传顶部图片": [
+    "Upload header image",
+    "上部の画像をアップロード",
+    "상단 이미지 업로드",
+    "上傳頂部圖片",
+    "上載頂部圖片"
+  ],
+  "PNG、JPG、WebP · 图片等比适应票宽": [
+    "PNG, JPG, WebP · Scaled to fit the receipt",
+    "PNG・JPG・WebP · 縦横比を保って幅に合わせます",
+    "PNG, JPG, WebP · 비율을 유지하여 너비에 맞춤",
+    "PNG、JPG、WebP · 圖片按比例縮放至收據寬度",
+    "PNG、JPG、WebP · 圖片按比例縮放至收據闊度"
+  ],
+  "移除图片": [
+    "Remove image",
+    "画像を削除",
+    "이미지 삭제",
+    "移除圖片",
+    "移除圖片"
+  ],
+  "抬头名称": [
+    "Title",
+    "タイトル",
+    "제목",
+    "抬頭名稱",
+    "標題名稱"
+  ],
+  "输入小票抬头": [
+    "Enter receipt title",
+    "レシートのタイトルを入力",
+    "영수증 제목 입력",
+    "輸入收據抬頭",
+    "輸入收據標題"
+  ],
+  "副标题文字": [
+    "Subtitle",
+    "サブタイトル",
+    "부제목",
+    "副標題文字",
+    "副標題文字"
+  ],
+  "输入副标题，留空则隐藏": [
+    "Enter subtitle; leave blank to hide",
+    "サブタイトルを入力（空欄で非表示）",
+    "부제목 입력 (비워두면 숨김)",
+    "輸入副標題，留白即可隱藏",
+    "輸入副標題，留空即可隱藏"
+  ],
+  "时间范围": [
+    "Service period",
+    "対象期間",
+    "서비스 기간",
+    "時間範圍",
+    "時間範圍"
+  ],
+  "开始时间": [
+    "Start",
+    "開始日時",
+    "시작 일시",
+    "開始時間",
+    "開始時間"
+  ],
+  "结束时间": [
+    "End",
+    "終了日時",
+    "종료 일시",
+    "結束時間",
+    "結束時間"
+  ],
+  "请填写完整时间，结束时间需不早于开始时间。": [
+    "Enter both dates. The end must be on or after the start.",
+    "開始日時と終了日時を入力してください。終了日時は開始日時以降にしてください。",
+    "시작 및 종료 일시를 모두 입력하세요. 종료 일시는 시작 일시보다 빠를 수 없습니다.",
+    "請填寫完整時間，結束時間不得早於開始時間。",
+    "請填寫完整時間，結束時間不可早於開始時間。"
+  ],
+  "项目明细": [
+    "Line items",
+    "明細",
+    "항목 내역",
+    "項目明細",
+    "項目明細"
+  ],
+  "项目名称": [
+    "Item name",
+    "項目名",
+    "항목명",
+    "項目名稱",
+    "項目名稱"
+  ],
+  "添加一个项目": [
+    "Add an item",
+    "項目を追加",
+    "항목 추가",
+    "新增一個項目",
+    "新增一個項目"
+  ],
+  "加急与备注": [
+    "Rush fee & notes",
+    "特急料金と備考",
+    "긴급 작업 요금 및 비고",
+    "急件與備註",
+    "特快處理與備註"
+  ],
+  "加急费": [
+    "Rush fee",
+    "特急料金",
+    "긴급 작업 요금",
+    "急件費",
+    "特快處理費"
+  ],
+  "按项目小计乘以倍数计算总额": [
+    "Total = subtotal × multiplier",
+    "小計に倍率を掛けて合計を計算",
+    "소계에 배수를 곱하여 합계 계산",
+    "將項目小計乘以倍數，計算總額",
+    "將項目小計乘以倍數，計算總額"
+  ],
+  "加急倍数": [
+    "Rush multiplier",
+    "特急料金の倍率",
+    "긴급 작업 배수",
+    "急件倍數",
+    "特快處理倍數"
+  ],
+  "底部备注": [
+    "Notes",
+    "備考",
+    "비고",
+    "底部備註",
+    "底部備註"
+  ],
+  "可选": [
+    "Optional",
+    "任意",
+    "선택 사항",
+    "選填",
+    "可選"
+  ],
+  "备注文字": [
+    "Note text",
+    "備考の内容",
+    "비고 내용",
+    "備註文字",
+    "備註文字"
+  ],
+  "写一句备注，或留一句谢谢。": [
+    "Add a note or a word of thanks.",
+    "備考や感謝の言葉を添えて。",
+    "메모나 감사 인사를 남겨보세요.",
+    "寫一句備註，或留一句謝謝。",
+    "寫一句備註，或留一句謝謝。"
+  ],
+  "小票页脚文字": [
+    "Footer text",
+    "フッターの文字",
+    "하단 문구",
+    "收據頁尾文字",
+    "收據頁尾文字"
+  ],
+  "输入页脚文字，留空则隐藏": [
+    "Enter footer text; leave blank to hide",
+    "フッターの文字を入力（空欄で非表示）",
+    "하단 문구 입력 (비워두면 숨김)",
+    "輸入頁尾文字，留白即可隱藏",
+    "輸入頁尾文字，留空即可隱藏"
+  ],
+  "小票尾部图片": [
+    "Footer image",
+    "下部の画像",
+    "하단 이미지",
+    "收據底部圖片",
+    "收據底部圖片"
+  ],
+  "可选 · 上下留白": [
+    "Optional · Space above and below",
+    "任意 · 上下に余白",
+    "선택 사항 · 위아래 여백",
+    "選填 · 上下留白",
+    "可選 · 上下留白"
+  ],
+  "上传尾部图片": [
+    "Upload footer image",
+    "下部の画像をアップロード",
+    "하단 이미지 업로드",
+    "上傳底部圖片",
+    "上載底部圖片"
+  ],
+  "合计金额": [
+    "Total amount",
+    "合計金額",
+    "합계 금액",
+    "總金額",
+    "總金額"
+  ],
+  "小票编辑": [
+    "Receipt editor",
+    "レシート編集",
+    "영수증 편집",
+    "編輯收據",
+    "編輯收據"
+  ],
+  "小票实时预览": [
+    "Live receipt preview",
+    "レシートのリアルタイムプレビュー",
+    "영수증 실시간 미리보기",
+    "收據即時預覽",
+    "收據即時預覽"
+  ],
+  "小票预览": [
+    "Receipt preview",
+    "レシートのプレビュー",
+    "영수증 미리보기",
+    "收據預覽",
+    "收據預覽"
+  ],
+  "完整预览": [
+    "Overview",
+    "全体表示",
+    "전체 보기",
+    "完整預覽",
+    "完整預覽"
+  ],
+  "完整小票预览": [
+    "Full receipt preview",
+    "レシート全体のプレビュー",
+    "영수증 전체 미리보기",
+    "完整收據預覽",
+    "完整收據預覽"
+  ],
+  "细节预览 · 上下滚动": [
+    "Details · Scroll",
+    "詳細 · スクロール",
+    "상세 보기 · 스크롤",
+    "細節預覽 · 上下捲動",
+    "細節預覽 · 上下捲動"
+  ],
+  "小票细节滚动预览": [
+    "Scrollable receipt details",
+    "レシート詳細のスクロール表示",
+    "영수증 상세 스크롤 보기",
+    "捲動預覽收據細節",
+    "捲動預覽收據細節"
+  ],
+  "保存小票 PNG": [
+    "Save receipt PNG",
+    "PNGで保存",
+    "PNG로 저장",
+    "儲存收據 PNG",
+    "儲存收據 PNG"
+  ],
+  "所见即所得": [
+    "What you see is what you save",
+    "表示どおりに保存",
+    "보이는 그대로 저장",
+    "所見即所得",
+    "所見即所得"
+  ],
+  "本地生成不上传": [
+    "Created locally, never uploaded",
+    "端末内で生成・送信なし",
+    "기기 내 생성 · 업로드 없음",
+    "在本機產生，不會上傳",
+    "在本機產生，不會上載"
+  ],
+  "小票为模板非AI生图": [
+    "Template-based receipt, no AI images",
+    "テンプレート式・AI画像生成ではありません",
+    "템플릿 기반 영수증 · AI 이미지 아님",
+    "使用範本製作收據，非 AI 生成圖片",
+    "使用範本製作收據，非 AI 生成圖片"
+  ],
+  "项目 {n} 名称": [
+    "Item {n} name",
+    "項目 {n} の名前",
+    "항목 {n} 이름",
+    "項目 {n} 名稱",
+    "項目 {n} 名稱"
+  ],
+  "项目 {n} 金额": [
+    "Item {n} amount",
+    "項目 {n} の金額",
+    "항목 {n} 금액",
+    "項目 {n} 金額",
+    "項目 {n} 金額"
+  ],
+  "删除项目 {n}": [
+    "Remove item {n}",
+    "項目 {n} を削除",
+    "항목 {n} 삭제",
+    "刪除項目 {n}",
+    "刪除項目 {n}"
+  ],
+  "{n} 个项目": [
+    "{n} items",
+    "{n} 項目",
+    "{n}개 항목",
+    "{n} 個項目",
+    "{n} 個項目"
+  ],
+  "还没有项目，添加第一笔吧。": [
+    "No items yet. Add your first item.",
+    "項目がありません。最初の項目を追加しましょう。",
+    "아직 항목이 없습니다. 첫 항목을 추가하세요.",
+    "尚無項目，新增第一筆吧。",
+    "暫時沒有項目，新增第一筆吧。"
+  ],
+  "请填写有效金额，最多两位小数（负数可用于抵扣）。": [
+    "Enter valid amounts with up to 2 decimal places (negative values deduct).",
+    "金額は小数点以下2桁までで入力してください（負の値は値引き）。",
+    "소수점 이하 두 자리까지 유효한 금액을 입력하세요 (음수는 차감).",
+    "請填寫有效金額，最多兩位小數（負數可用於折抵）。",
+    "請填寫有效金額，最多兩位小數（負數可用作扣減）。"
+  ],
+  "加急倍数请填写 1–100，最多两位小数。": [
+    "Enter a multiplier from 1 to 100, with up to 2 decimal places.",
+    "倍率は1～100の範囲で、小数点以下2桁までで入力してください。",
+    "배수는 1~100 범위에서 소수점 이하 두 자리까지 입력하세요.",
+    "急件倍數請填寫 1–100，最多兩位小數。",
+    "特快處理倍數請填寫 1–100，最多兩位小數。"
+  ],
+  "合计 = {subtotal} × {rate}（加急费 {rush}）": [
+    "Total = {subtotal} × {rate} (rush fee {rush})",
+    "合計 = {subtotal} × {rate}（特急料金 {rush}）",
+    "합계 = {subtotal} × {rate} (긴급 작업 요금 {rush})",
+    "總計 = {subtotal} × {rate}（急件費 {rush}）",
+    "總計 = {subtotal} × {rate}（特快處理費 {rush}）"
+  ],
+  "合计 = 项目小计": [
+    "Total = subtotal",
+    "合計 = 小計",
+    "합계 = 소계",
+    "總計 = 項目小計",
+    "總計 = 項目小計"
+  ],
+  "未命名小票": [
+    "Untitled receipt",
+    "無題のレシート",
+    "제목 없는 영수증",
+    "未命名收據",
+    "未命名收據"
+  ],
+  "未设置": [
+    "Not set",
+    "未設定",
+    "미설정",
+    "未設定",
+    "未設定"
+  ],
+  "项目 / ITEM": [
+    "ITEM",
+    "項目 / ITEM",
+    "항목 / ITEM",
+    "項目 / ITEM",
+    "項目 / ITEM"
+  ],
+  "金额 / {code}": [
+    "AMOUNT / {code}",
+    "金額 / {code}",
+    "금액 / {code}",
+    "金額 / {code}",
+    "金額 / {code}"
+  ],
+  "暂无项目": [
+    "No items",
+    "項目なし",
+    "항목 없음",
+    "尚無項目",
+    "暫無項目"
+  ],
+  "未命名项目": [
+    "Untitled item",
+    "名称未設定",
+    "이름 없는 항목",
+    "未命名項目",
+    "未命名項目"
+  ],
+  "项目小计": [
+    "Subtotal",
+    "小計",
+    "소계",
+    "項目小計",
+    "項目小計"
+  ],
+  "合计": [
+    "Total",
+    "合計",
+    "합계",
+    "總計",
+    "總計"
+  ],
+  "备注 / NOTE": [
+    "NOTE",
+    "備考 / NOTE",
+    "비고 / NOTE",
+    "備註 / NOTE",
+    "備註 / NOTE"
+  ],
+  "待填写": [
+    "Not entered",
+    "未入力",
+    "미입력",
+    "待填寫",
+    "待填寫"
+  ],
+  "{title}，{n} 个项目，合计 {amount} {code}": [
+    "{title}, {n} items, total {amount} {code}",
+    "{title}、{n}項目、合計 {amount} {code}",
+    "{title}, {n}개 항목, 합계 {amount} {code}",
+    "{title}，{n} 個項目，總計 {amount} {code}",
+    "{title}，{n} 個項目，總計 {amount} {code}"
+  ],
+  "完整预览：": [
+    "Overview: ",
+    "全体表示：",
+    "전체 보기: ",
+    "完整預覽：",
+    "完整預覽："
+  ],
+  "请先检查时间、项目金额和加急倍数。": [
+    "Check the dates, amounts, and rush multiplier first.",
+    "日時、金額、特急料金の倍率を確認してください。",
+    "일시, 항목 금액, 긴급 작업 배수를 먼저 확인하세요.",
+    "請先檢查時間、項目金額及急件倍數。",
+    "請先檢查時間、項目金額及特快處理倍數。"
+  ],
+  "图片生成失败，请重试。": [
+    "Image generation failed. Please try again.",
+    "画像の生成に失敗しました。もう一度お試しください。",
+    "이미지를 생성하지 못했습니다. 다시 시도하세요.",
+    "圖片產生失敗，請重試。",
+    "未能產生圖片，請重試。"
+  ],
+  "小票": [
+    "Receipt",
+    "レシート",
+    "영수증",
+    "收據",
+    "收據"
+  ],
+  "小票已生成，PNG 下载已开始。": [
+    "Receipt created. Your PNG download has started.",
+    "レシートを作成しました。PNGのダウンロードを開始しました。",
+    "영수증이 생성되어 PNG 다운로드를 시작했습니다.",
+    "收據已產生，已開始下載 PNG。",
+    "收據已產生，已開始下載 PNG。"
+  ],
+  "本地暂存失败，可能是浏览器限制或空间不足；当前内容仍可导出。": [
+    "Local save failed, possibly due to browser restrictions or storage limits. You can still export.",
+    "ブラウザーの制限または空き容量不足により保存できませんでした。現在の内容は書き出せます。",
+    "브라우저 제한이나 저장 공간 부족으로 임시 저장에 실패했습니다. 현재 내용은 내보낼 수 있습니다.",
+    "本機暫存失敗，可能是瀏覽器限制或儲存空間不足；目前內容仍可匯出。",
+    "本機暫存失敗，可能是瀏覽器限制或儲存空間不足；目前內容仍可匯出。"
+  ],
+  "无法读取本地暂存，已使用默认配置。": [
+    "Could not restore your draft. Defaults have been loaded.",
+    "保存した内容を読み込めなかったため、初期設定を使用しています。",
+    "임시 저장 내용을 불러오지 못해 기본 설정을 적용했습니다.",
+    "無法讀取本機暫存，已使用預設設定。",
+    "無法讀取本機暫存，已使用預設設定。"
+  ],
+  "请上传 PNG、JPG 或 WebP 图片。": [
+    "Upload a PNG, JPG, or WebP image.",
+    "PNG、JPG、WebPのいずれかの画像をアップロードしてください。",
+    "PNG, JPG 또는 WebP 이미지를 업로드하세요.",
+    "請上傳 PNG、JPG 或 WebP 圖片。",
+    "請上載 PNG、JPG 或 WebP 圖片。"
+  ],
+  "图片请控制在 20 MB 以内。": [
+    "Keep each image within 20 MB.",
+    "画像は20 MB以下にしてください。",
+    "이미지는 20 MB 이내여야 합니다.",
+    "圖片大小請勿超過 20 MB。",
+    "圖片大小請勿超過 20 MB。"
+  ],
+  "图片过长，请使用高度不超过宽度 8 倍的图片。": [
+    "Image too tall. Height must not exceed 8 times the width.",
+    "画像が縦に長すぎます。高さは幅の8倍以内にしてください。",
+    "이미지가 너무 깁니다. 높이가 너비의 8배 이하인 이미지를 사용하세요.",
+    "圖片過長，請使用高度不超過寬度 8 倍的圖片。",
+    "圖片過長，請使用高度不超過闊度 8 倍的圖片。"
+  ],
+  "图片无法读取，请换一张图片。": [
+    "Unable to read this image. Try another one.",
+    "画像を読み込めません。別の画像をお試しください。",
+    "이미지를 읽을 수 없습니다. 다른 이미지를 사용하세요.",
+    "無法讀取圖片，請換一張圖片。",
+    "無法讀取圖片，請換一張圖片。"
+  ],
+  "已重置～": [
+    "Reset complete.",
+    "リセットしました。",
+    "초기화되었습니다.",
+    "已重設～",
+    "已重設～"
+  ],
+  "好事发生工作室": [
+    "Good Things Studio",
+    "いいことスタジオ",
+    "좋은 일 스튜디오",
+    "好事發生工作室",
+    "好事發生工作室"
+  ],
+  "品牌视觉设计": [
+    "Brand visual design",
+    "ブランドのビジュアルデザイン",
+    "브랜드 비주얼 디자인",
+    "品牌視覺設計",
+    "品牌視覺設計"
+  ],
+  "社交媒体封面": [
+    "Social media cover",
+    "SNSカバー画像",
+    "소셜 미디어 커버 이미지",
+    "社群媒體封面",
+    "社交媒體封面"
+  ],
+  "文件整理与交付": [
+    "File organization and delivery",
+    "ファイルの整理と納品",
+    "파일 정리 및 전달",
+    "檔案整理與交付",
+    "檔案整理與交付"
+  ],
+  "感谢信任，期待下一次合作。\n愿每一份认真，都有回响。": [
+    "Thank you for your trust. We look forward to working with you again.\nMay every sincere effort make a difference.",
+    "ご信頼いただきありがとうございます。またご一緒できる日を楽しみにしています。\n一つひとつの真摯な取り組みが、実を結びますように。",
+    "믿고 맡겨주셔서 감사합니다. 다음에도 함께하길 기대합니다.\n모든 정성이 좋은 결실로 이어지기를 바랍니다.",
+    "感謝信任，期待下一次合作。\n願每一份用心，都有回響。",
+    "感謝信任，期待下一次合作。\n願每一份用心，都有回響。"
+  ],
+  "新臺幣 · 繁體中文（臺灣）（TWD NT$）": [
+    "New Taiwan dollar · 繁體中文（臺灣） (TWD NT$)",
+    "ニュー台湾ドル · 繁體中文（臺灣） (TWD NT$)",
+    "신 타이완 달러 · 繁體中文（臺灣） (TWD NT$)",
+    "新臺幣 · 繁體中文（臺灣）（TWD NT$）",
+    "新台幣 · 繁體中文（台灣）（TWD NT$）"
+  ],
+  "港幣 · 繁體中文（香港）（HKD HK$）": [
+    "Hong Kong dollar · 繁體中文（香港） (HKD HK$)",
+    "香港ドル · 繁體中文（香港） (HKD HK$)",
+    "홍콩 달러 · 繁體中文（香港） (HKD HK$)",
+    "港幣 · 繁體中文（香港）（HKD HK$）",
+    "港幣 · 繁體中文（香港）（HKD HK$）"
+  ],
+  "FF14 简中服金币 · 简体中文（GIL）": [
+    "FF14 Chinese server gold · 简体中文 (GIL)",
+    "FF14 簡体字中国語版ギル · 简体中文 (GIL)",
+    "FF14 중국어 간체 서버 길 · 简体中文 (GIL)",
+    "FF14 簡中服金幣 · 簡體中文（GIL）",
+    "FF14 簡中服金幣 · 簡體中文（GIL）"
+  ],
+  "FF14 繁中服 gil · 繁體中文（GIL）": [
+    "FF14 Traditional Chinese server gil · 繁體中文 (GIL)",
+    "FF14 繁体字中国語版ギル · 繁體中文 (GIL)",
+    "FF14 중국어 번체 서버 길 · 繁體中文 (GIL)",
+    "FF14 繁中服 gil · 繁體中文（GIL）",
+    "FF14 繁中服 gil · 繁體中文（GIL）"
+  ]
+};
+// Selection IDs distinguish the two FF14 servers; code is the printed currency abbreviation.
+const currencies={
+  CNY:{symbol:'¥',code:'CNY',lang:'zh-CN',locale:'zh-CN',index:-1,font:'"Microsoft YaHei", sans-serif'},
+  TWD:{symbol:'NT$',code:'TWD',lang:'zh-TW',locale:'zh-TW',index:3,font:'"PingFang TC", "Microsoft JhengHei", sans-serif'},
+  HKD:{symbol:'HK$',code:'HKD',lang:'zh-HK',locale:'zh-HK',index:4,font:'"PingFang HK", "Microsoft JhengHei", sans-serif'},
+  FF14_CN:{symbol:'金币',code:'GIL',lang:'zh-CN',locale:'zh-CN',index:-1,font:'"Microsoft YaHei", sans-serif'},
+  FF14_TW:{symbol:'gil',code:'GIL',lang:'zh-TW',locale:'zh-TW',index:3,font:'"PingFang TC", "Microsoft JhengHei", sans-serif'},
+  USD:{symbol:'$',code:'USD',lang:'en',locale:'en-US',index:0,font:'Arial, sans-serif'},
+  JPY:{symbol:'¥',code:'JPY',lang:'ja',locale:'ja-JP',index:1,font:'"Yu Gothic", "Meiryo", sans-serif'},
+  KRW:{symbol:'₩',code:'KRW',lang:'ko',locale:'ko-KR',index:2,font:'"Malgun Gothic", sans-serif'}
+};
 const currency=()=>currencies[$('currency').value]||currencies.CNY;
 function tr(key,values={},code=$('currency').value){const index=(currencies[code]||currencies.CNY).index;let text=index<0?key:(translations[key]?.[index]??key);return text.replace(/\{(\w+)\}/g,(match,name)=>values[name]??match)}
 // Capture only interface text, never user input or uploaded filenames.
@@ -76,7 +765,7 @@ const localeNodes=[],localeAttributes=[];
 const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
 while(walker.nextNode()){const node=walker.currentNode,key=node.textContent.trim();if(translations[key]&&!node.parentElement.closest('script,textarea,#upload-text,#footer-upload-text'))localeNodes.push({node,key})}
 document.querySelectorAll('[placeholder],[aria-label]').forEach(node=>{for(const attr of ['placeholder','aria-label']){const key=node.getAttribute(attr);if(translations[key])localeAttributes.push({node,attr,key})}});
-function applyLocale(){if(!currencies[$('currency').value])$('currency').value='CNY';document.documentElement.lang=currency().lang;document.title=tr('纸间 · 小票生成器');localeNodes.forEach(({node,key})=>node.textContent=tr(key));localeAttributes.forEach(({node,attr,key})=>node.setAttribute(attr,tr(key)));for(const slot of Object.values(imageSlots))$(slot.text).textContent=state[slot.name]||tr(slot.label);$('amount-label').textContent=tr('金额 / {code}',{code:$('currency').value})}
+function applyLocale(){if(!currencies[$('currency').value])$('currency').value='CNY';document.documentElement.lang=currency().lang;document.title=tr('纸间 · 小票生成器');localeNodes.forEach(({node,key})=>node.textContent=tr(key));localeAttributes.forEach(({node,attr,key})=>node.setAttribute(attr,tr(key)));for(const slot of Object.values(imageSlots))$(slot.text).textContent=state[slot.name]||tr(slot.label);$('amount-label').textContent=tr('金额 / {code}',{code:currency().code})}
 function switchCurrency(previous){
   clearTimeout(toast.timer);$('toast').classList.remove('show');
   // Translate untouched examples only. Authored content is preserved exactly.
@@ -91,18 +780,18 @@ const cents=s=>Math.round((Number(s)||0)*100);
 function getTotals(){const subtotal=state.items.reduce((sum,item)=>sum+cents(item.amount),0);const rate=$('rush-enabled').checked?Number($('rush-rate').value):1;const total=Math.round(subtotal*rate);return{subtotal,total,rate,rush:total-subtotal}}
 function valid(){const dates=$('start').value&&$('end').value&&$('end').value>=$('start').value;const amounts=state.items.every(i=>i.amount.trim()!==''&&Number.isFinite(Number(i.amount))&&Math.abs(Number(i.amount))<=999999999&&/^-?\d*(\.\d{0,2})?$/.test(i.amount));const rate=!$('rush-enabled').checked||($('rush-rate').checkValidity()&&Number($('rush-rate').value)>=1);return{dates,amounts,rate,ok:dates&&amounts&&rate}}
 function toast(message){$('toast').textContent=message;$('toast').classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.remove('show'),3200)}
-function renderItems(){const fragment=document.createDocumentFragment();state.items.forEach((item,index)=>{const row=document.createElement('div');row.className='item-row';const name=document.createElement('input');name.value=item.name;name.maxLength=200;name.placeholder=tr('项目名称');name.setAttribute('aria-label',tr('项目 {n} 名称',{n:index+1}));name.addEventListener('input',()=>{item.name=name.value;render()});const wrap=document.createElement('div');wrap.className='amount-wrap';const symbol=document.createElement('span');symbol.textContent=currency().symbol;const amount=document.createElement('input');amount.type='number';amount.step='0.01';amount.min='-999999999';amount.max='999999999';amount.value=item.amount;amount.setAttribute('aria-label',tr('项目 {n} 金额',{n:index+1}));amount.addEventListener('input',()=>{item.amount=amount.value;render()});wrap.append(symbol,amount);const remove=document.createElement('button');remove.className='remove';remove.setAttribute('aria-label',tr('删除项目 {n}',{n:index+1}));remove.innerHTML='<svg aria-hidden="true"><use href="#trash"/></svg>';remove.addEventListener('click',()=>{state.items=state.items.filter(i=>i.id!==item.id);renderItems();render();const targets=$('items').querySelectorAll('.remove');(targets[Math.min(index,targets.length-1)]||$('add-item')).focus()});row.append(name,wrap,remove);fragment.append(row)});$('items').replaceChildren(fragment);if(!state.items.length){const empty=document.createElement('div');empty.className='empty-items';empty.textContent=tr('还没有项目，添加第一笔吧。');$('items').append(empty)}$('item-count').textContent=tr('{n} 个项目',{n:state.items.length})}
+function renderItems(){const fragment=document.createDocumentFragment();state.items.forEach((item,index)=>{const row=document.createElement('div');row.className='item-row';const name=document.createElement('input');name.value=item.name;name.maxLength=200;name.placeholder=tr('项目名称');name.setAttribute('aria-label',tr('项目 {n} 名称',{n:index+1}));name.addEventListener('input',()=>{item.name=name.value;render()});const wrap=document.createElement('div');wrap.className='amount-wrap';const symbol=document.createElement('span');symbol.textContent=currency().symbol;wrap.style.setProperty('--currency-symbol-width',currency().symbol.length>1?'45px':'28px');const amount=document.createElement('input');amount.type='number';amount.step='0.01';amount.min='-999999999';amount.max='999999999';amount.value=item.amount;amount.setAttribute('aria-label',tr('项目 {n} 金额',{n:index+1}));amount.addEventListener('input',()=>{item.amount=amount.value;render()});wrap.append(symbol,amount);const remove=document.createElement('button');remove.className='remove';remove.setAttribute('aria-label',tr('删除项目 {n}',{n:index+1}));remove.innerHTML='<svg aria-hidden="true"><use href="#trash"/></svg>';remove.addEventListener('click',()=>{state.items=state.items.filter(i=>i.id!==item.id);renderItems();render();const targets=$('items').querySelectorAll('.remove');(targets[Math.min(index,targets.length-1)]||$('add-item')).focus()});row.append(name,wrap,remove);fragment.append(row)});$('items').replaceChildren(fragment);if(!state.items.length){const empty=document.createElement('div');empty.className='empty-items';empty.textContent=tr('还没有项目，添加第一笔吧。');$('items').append(empty)}$('item-count').textContent=tr('{n} 个项目',{n:state.items.length})}
 function wrapText(text,width,font){ctx.font=font;const lines=[];String(text).split('\n').forEach(paragraph=>{let line='';for(const char of paragraph){if(ctx.measureText(line+char).width>width&&line){lines.push(line);line=char}else line+=char}lines.push(line)});return lines}
-const fontFamily=()=>({CNY:'"Microsoft YaHei", sans-serif',USD:'Arial, sans-serif',JPY:'"Yu Gothic", "Meiryo", sans-serif',KRW:'"Malgun Gothic", sans-serif'}[$('currency').value]||'sans-serif');
+const fontFamily=()=>currency().font;
 const fonts={body:'14px "Microsoft YaHei", sans-serif',small:'11px "Microsoft YaHei", sans-serif',mono:'13px Consolas, monospace',title:'600 25px "Songti SC", "SimSun", serif'};
-function render(){fonts.body='14px '+fontFamily();fonts.small='11px '+fontFamily();fonts.title='600 25px '+($('currency').value==='CNY'?'"Songti SC", "SimSun", serif':fontFamily());saveDraft();const checks=valid(),totals=getTotals();$('date-error').hidden=!!checks.dates;$('rush-rate').disabled=!$('rush-enabled').checked;$('note-field').hidden=!$('note-enabled').checked;$('total').textContent=checks.amounts&&checks.rate?`${currency().symbol} ${money(totals.total/100)}`:'—';$('formula').textContent=!checks.amounts?tr('请填写有效金额，最多两位小数（负数可用于抵扣）。'):!checks.rate?tr('加急倍数请填写 1–100，最多两位小数。'):$('rush-enabled').checked?tr('合计 = {subtotal} × {rate}（加急费 {rush}）',{subtotal:currency().symbol+' '+money(totals.subtotal/100),rate:totals.rate,rush:currency().symbol+' '+money(totals.rush/100)}):tr('合计 = 项目小计');
+function render(){fonts.body='14px '+fontFamily();fonts.small='11px '+fontFamily();fonts.title='600 25px '+(currency().lang==='zh-CN'?'"Songti SC", "SimSun", serif':fontFamily());saveDraft();const checks=valid(),totals=getTotals();$('date-error').hidden=!!checks.dates;$('rush-rate').disabled=!$('rush-enabled').checked;$('note-field').hidden=!$('note-enabled').checked;$('total').textContent=checks.amounts&&checks.rate?`${currency().symbol} ${money(totals.total/100)}`:'—';$('formula').textContent=!checks.amounts?tr('请填写有效金额，最多两位小数（负数可用于抵扣）。'):!checks.rate?tr('加急倍数请填写 1–100，最多两位小数。'):$('rush-enabled').checked?tr('合计 = {subtotal} × {rate}（加急费 {rush}）',{subtotal:currency().symbol+' '+money(totals.subtotal/100),rate:totals.rate,rush:currency().symbol+' '+money(totals.rush/100)}):tr('合计 = 项目小计');
 const W=360,pad=29,inner=W-pad*2,ops=[];let y=36;
 const text=(value,x,yy,font=fonts.body,align='left',color='#191919')=>ops.push(()=>{ctx.font=font;ctx.fillStyle=color;ctx.textAlign=align;ctx.fillText(value,x,yy)});
 const line=(yy,dashed=true)=>ops.push(()=>{ctx.beginPath();ctx.strokeStyle='#aaa';ctx.lineWidth=.6;ctx.setLineDash(dashed?[3,3]:[]);ctx.moveTo(pad,yy);ctx.lineTo(W-pad,yy);ctx.stroke();ctx.setLineDash([])});
 if(state.image){const img=state.image;const h=inner*img.height/img.width;ops.push(()=>ctx.drawImage(img,pad,yImage,inner,h));const yImage=y;y+=h+25}
 const titleLines=wrapText($('title').value||tr('未命名小票'),inner,fonts.title);titleLines.forEach(s=>{text(s,W/2,y+25,fonts.title,'center');y+=35});y+=4;const subtitle=$('subtitle').value.trim();if(subtitle){const subtitleFont='10px '+fontFamily();wrapText(subtitle==='RECEIPT'?'R E C E I P T':subtitle,inner,subtitleFont).forEach(s=>{text(s,W/2,y+10,subtitleFont,'center','#777');y+=17});y+=18}else y+=12;line(y);y+=26;
 text(tr('时间范围'),pad,y,fonts.small,'left','#777');text($('currency').value==='USD'?'':'SERVICE PERIOD',W-pad,y,'9px Consolas, monospace','right','#888');y+=23;
-const dateParts=s=>s?[s.slice(0,10).replaceAll('-','.'),s.slice(11,16)]:[tr('未设置'),''];const [startDate,startTime]=dateParts($('start').value),[endDate,endTime]=dateParts($('end').value);const startX=pad+inner*.22,endX=W-pad-inner*.22;text(startDate,startX,y,fonts.mono,'center');text('～',W/2,y,fonts.body,'center');text(endDate,endX,y,fonts.mono,'center');y+=22;text(startTime,startX,y,fonts.mono,'center');text(endTime,endX,y,fonts.mono,'center');y+=23;line(y);y+=26;text(tr('项目 / ITEM'),pad,y,fonts.small,'left','#777');text(tr('金额 / {code}',{code:$('currency').value}),W-pad,y,fonts.small,'right','#777');y+=27;
+const dateParts=s=>s?[s.slice(0,10).replaceAll('-','.'),s.slice(11,16)]:[tr('未设置'),''];const [startDate,startTime]=dateParts($('start').value),[endDate,endTime]=dateParts($('end').value);const startX=pad+inner*.22,endX=W-pad-inner*.22;text(startDate,startX,y,fonts.mono,'center');text('～',W/2,y,fonts.body,'center');text(endDate,endX,y,fonts.mono,'center');y+=22;text(startTime,startX,y,fonts.mono,'center');text(endTime,endX,y,fonts.mono,'center');y+=23;line(y);y+=26;text(tr('项目 / ITEM'),pad,y,fonts.small,'left','#777');text(tr('金额 / {code}',{code:currency().code}),W-pad,y,fonts.small,'right','#777');y+=27;
 if(!state.items.length){text(tr('暂无项目'),W/2,y,fonts.body,'center','#888');y+=29}
 state.items.forEach((item,index)=>{const amount=checks.amounts?money(cents(item.amount)/100):'—';ctx.font=fonts.mono;const amountWidth=Math.max(70,ctx.measureText(amount).width+15);const lines=wrapText(item.name||tr('未命名项目'),inner-amountWidth-24,fonts.body);text(String(index+1).padStart(2,'0'),pad,y,'10px Consolas, monospace','left','#999');lines.forEach((s,i)=>text(s,pad+24,y+i*22));text(amount,W-pad,y,fonts.mono,'right');y+=Math.max(1,lines.length)*22+13});y+=1;line(y);y+=28;
 text(tr('项目小计'),pad,y,fonts.body);text(checks.amounts?money(totals.subtotal/100):'—',W-pad,y,fonts.mono,'right');y+=28;
@@ -112,7 +801,7 @@ if($('note-enabled').checked&&$('note').value.trim()){text(tr('备注 / NOTE'),p
 if($('footer').value.trim()){const footerFont='500 14px '+fontFamily();wrapText($('footer').value.trim(),inner,footerFont).forEach(s=>{text(s,W/2,y+5,footerFont,'center','#333');y+=23});y+=3}text('·  ·  ·',W/2,y,'14px Georgia, serif','center','#aaa');y+=33;
 if(state.footerImage){const img=state.footerImage,h=inner*img.height/img.width;const imageY=y;ops.push(()=>ctx.drawImage(img,pad,imageY,inner,h));y+=h+25}
 const H=Math.ceil(y);canvas.width=W*3;canvas.height=H*3;canvas.style.aspectRatio=`${W} / ${H}`;ctx.scale(3,3);ctx.fillStyle='white';ctx.beginPath();ctx.moveTo(0,9);for(let x=0;x<W;x+=12){ctx.lineTo(x+6,0);ctx.lineTo(x+12,9)}ctx.lineTo(W,H-9);for(let x=W;x>0;x-=12){ctx.lineTo(x-6,H);ctx.lineTo(x-12,H-9)}ctx.closePath();ctx.fill();ops.forEach(op=>op());$('dimensions').textContent=`${canvas.width} × ${canvas.height} px`;
-canvas.setAttribute('aria-label',tr('{title}，{n} 个项目，合计 {amount} {code}',{title:$('title').value,n:state.items.length,amount:checks.amounts&&checks.rate?money(totals.total/100):tr('待填写'),code:$('currency').value}));
+canvas.setAttribute('aria-label',tr('{title}，{n} 个项目，合计 {amount} {code}',{title:$('title').value,n:state.items.length,amount:checks.amounts&&checks.rate?money(totals.total/100):tr('待填写'),code:currency().code}));
 const overview=$('receipt-overview');overview.width=W;overview.height=H;overview.getContext('2d').drawImage(canvas,0,0,W,H);overview.setAttribute('aria-label',tr('完整预览：')+canvas.getAttribute('aria-label'));
 }
 function exportPNG(){if(!valid().ok){toast(tr('请先检查时间、项目金额和加急倍数。'));return}render();const buttons=document.querySelectorAll('.export');buttons.forEach(b=>b.disabled=true);canvas.toBlob(blob=>{buttons.forEach(b=>b.disabled=false);if(!blob){toast(tr('图片生成失败，请重试。'));return}const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=($('title').value||tr('小票')).replace(/[<>:"/\\|?*\u0000-\u001f]/g,'_')+'_'+$('start').value.slice(0,10)+'.png';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);toast(tr('小票已生成，PNG 下载已开始。'))},'image/png')}
@@ -157,7 +846,7 @@ $('reset').addEventListener('click',()=>{
 });
 restoreDraft();applyLocale();let activeCurrency=$('currency').value;$('currency').addEventListener('change',()=>{switchCurrency(activeCurrency);activeCurrency=$('currency').value});storageReady=true;renderItems();render();
 Object.keys(imageSlots).forEach(restoreImage);document.fonts.ready.then(render);
-if(document.modelContext?.registerTool){const lifecycle=new AbortController();const readReceipt=()=>({currency:$('currency').value,subtitle:$('subtitle').value,title:$('title').value,start:$('start').value,end:$('end').value,items:state.items.map(({name,amount})=>({name,amount:Number(amount)})),rushEnabled:$('rush-enabled').checked,rushRate:Number($('rush-rate').value),noteEnabled:$('note-enabled').checked,note:$('note').value,footer:$('footer').value,subtotal:getTotals().subtotal/100,rushFee:getTotals().rush/100,total:getTotals().total/100,valid:!!valid().ok});const config={name:'configure_receipt',title:'编辑小票',description:'批量修改小票抬头、明细、时间范围、加急倍数及备注，并返回自动计算的合计金额。不会下载或上传文件。',inputSchema:{type:'object',properties:{currency:{type:'string',enum:['CNY','USD','JPY','KRW']},subtitle:{type:'string',maxLength:120},title:{type:'string',maxLength:120},start:{type:'string'},end:{type:'string'},items:{type:'array',items:{type:'object',properties:{name:{type:'string',maxLength:200},amount:{type:'number',minimum:-999999999,maximum:999999999}},required:['name','amount'],additionalProperties:false}},rushEnabled:{type:'boolean'},rushRate:{type:'number',minimum:1,maximum:100},noteEnabled:{type:'boolean'},note:{type:'string',maxLength:2000},footer:{type:'string',maxLength:200}},additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:true},execute(input){if(!input||typeof input!=='object'||Array.isArray(input))throw new Error('请提供小票配置对象');const allowed=['currency','subtitle','title','start','end','items','rushEnabled','rushRate','noteEnabled','note','footer'];if(Object.keys(input).some(k=>!allowed.includes(k)))throw new Error('不支持的配置项');for(const [key,max] of [['subtitle',120],['title',120],['note',2000],['footer',200]])if(key in input&&(typeof input[key]!=='string'||input[key].length>max))throw new Error('文字格式或长度不正确');if('currency'in input&&!Object.hasOwn(currencies,input.currency))throw new Error('Unsupported currency');for(const key of ['rushEnabled','noteEnabled'])if(key in input&&typeof input[key]!=='boolean')throw new Error('开关必须为布尔值');if('rushRate'in input&&(!Number.isFinite(input.rushRate)||input.rushRate<1||input.rushRate>100||Math.abs(input.rushRate*100-Math.round(input.rushRate*100))>1e-6))throw new Error('加急倍数需为 1–100，最多两位小数');if('items'in input&&(!Array.isArray(input.items)||input.items.some(i=>!i||typeof i.name!=='string'||i.name.length>200||!Number.isFinite(i.amount)||Math.abs(i.amount)>999999999||Math.abs(i.amount*100-Math.round(i.amount*100))>1e-4)))throw new Error('项目金额或名称无效');const start=input.start??$('start').value,end=input.end??$('end').value;const datePattern=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;if(!datePattern.test(start)||!datePattern.test(end)||!Number.isFinite(Date.parse(start))||!Number.isFinite(Date.parse(end))||end<start)throw new Error('时间范围无效');if('currency'in input){const previous=$('currency').value;$('currency').value=input.currency;switchCurrency(previous);activeCurrency=input.currency}for(const [key,id] of [['subtitle','subtitle'],['title','title'],['start','start'],['end','end'],['rushRate','rush-rate'],['note','note'],['footer','footer']])if(key in input)$(id).value=input[key];for(const [key,id] of [['rushEnabled','rush-enabled'],['noteEnabled','note-enabled']])if(key in input)$(id).checked=input[key];if('items'in input){state.items=input.items.map(i=>({id:state.nextId++,name:i.name,amount:String(i.amount)}));renderItems()}render();return readReceipt()}};try{Promise.resolve(document.modelContext.registerTool(config,{signal:lifecycle.signal})).catch(()=>{});Promise.resolve(document.modelContext.registerTool({name:'read_receipt',title:'读取小票',description:'读取当前小票内容、有效状态及自动计算金额。',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:true},execute:readReceipt},{signal:lifecycle.signal})).catch(()=>{})}catch{}window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true})}
+if(document.modelContext?.registerTool){const lifecycle=new AbortController();const readReceipt=()=>({currency:$('currency').value,subtitle:$('subtitle').value,title:$('title').value,start:$('start').value,end:$('end').value,items:state.items.map(({name,amount})=>({name,amount:Number(amount)})),rushEnabled:$('rush-enabled').checked,rushRate:Number($('rush-rate').value),noteEnabled:$('note-enabled').checked,note:$('note').value,footer:$('footer').value,subtotal:getTotals().subtotal/100,rushFee:getTotals().rush/100,total:getTotals().total/100,valid:!!valid().ok});const config={name:'configure_receipt',title:'编辑小票',description:'批量修改小票抬头、明细、时间范围、加急倍数及备注，并返回自动计算的合计金额。不会下载或上传文件。',inputSchema:{type:'object',properties:{currency:{type:'string',enum:Object.keys(currencies)},subtitle:{type:'string',maxLength:120},title:{type:'string',maxLength:120},start:{type:'string'},end:{type:'string'},items:{type:'array',items:{type:'object',properties:{name:{type:'string',maxLength:200},amount:{type:'number',minimum:-999999999,maximum:999999999}},required:['name','amount'],additionalProperties:false}},rushEnabled:{type:'boolean'},rushRate:{type:'number',minimum:1,maximum:100},noteEnabled:{type:'boolean'},note:{type:'string',maxLength:2000},footer:{type:'string',maxLength:200}},additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:true},execute(input){if(!input||typeof input!=='object'||Array.isArray(input))throw new Error('请提供小票配置对象');const allowed=['currency','subtitle','title','start','end','items','rushEnabled','rushRate','noteEnabled','note','footer'];if(Object.keys(input).some(k=>!allowed.includes(k)))throw new Error('不支持的配置项');for(const [key,max] of [['subtitle',120],['title',120],['note',2000],['footer',200]])if(key in input&&(typeof input[key]!=='string'||input[key].length>max))throw new Error('文字格式或长度不正确');if('currency'in input&&!Object.hasOwn(currencies,input.currency))throw new Error('Unsupported currency');for(const key of ['rushEnabled','noteEnabled'])if(key in input&&typeof input[key]!=='boolean')throw new Error('开关必须为布尔值');if('rushRate'in input&&(!Number.isFinite(input.rushRate)||input.rushRate<1||input.rushRate>100||Math.abs(input.rushRate*100-Math.round(input.rushRate*100))>1e-6))throw new Error('加急倍数需为 1–100，最多两位小数');if('items'in input&&(!Array.isArray(input.items)||input.items.some(i=>!i||typeof i.name!=='string'||i.name.length>200||!Number.isFinite(i.amount)||Math.abs(i.amount)>999999999||Math.abs(i.amount*100-Math.round(i.amount*100))>1e-4)))throw new Error('项目金额或名称无效');const start=input.start??$('start').value,end=input.end??$('end').value;const datePattern=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;if(!datePattern.test(start)||!datePattern.test(end)||!Number.isFinite(Date.parse(start))||!Number.isFinite(Date.parse(end))||end<start)throw new Error('时间范围无效');if('currency'in input){const previous=$('currency').value;$('currency').value=input.currency;switchCurrency(previous);activeCurrency=input.currency}for(const [key,id] of [['subtitle','subtitle'],['title','title'],['start','start'],['end','end'],['rushRate','rush-rate'],['note','note'],['footer','footer']])if(key in input)$(id).value=input[key];for(const [key,id] of [['rushEnabled','rush-enabled'],['noteEnabled','note-enabled']])if(key in input)$(id).checked=input[key];if('items'in input){state.items=input.items.map(i=>({id:state.nextId++,name:i.name,amount:String(i.amount)}));renderItems()}render();return readReceipt()}};try{Promise.resolve(document.modelContext.registerTool(config,{signal:lifecycle.signal})).catch(()=>{});Promise.resolve(document.modelContext.registerTool({name:'read_receipt',title:'读取小票',description:'读取当前小票内容、有效状态及自动计算金额。',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:true},execute:readReceipt},{signal:lifecycle.signal})).catch(()=>{})}catch{}window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true})}
 </script>
 </body>
 </html>

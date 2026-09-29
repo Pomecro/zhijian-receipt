@@ -10,6 +10,8 @@
 
 - **实时双栏预览**：同时查看完整小票与可独立滚动的票面细节。
 - **自动计算金额**：添加、编辑或删除项目时自动更新小计与总额，支持负数抵扣和自定义加急倍数。
+- **自定义折扣**：填写 0–10 折，最多两位小数，默认 0。折扣系数为填写值 ÷ 10，例如 8 折乘以 0.8、10 折乘以 1、0 折乘以 0。「显示」位于「加急费前折扣」左侧。默认关闭「显示」：折扣不参与计算、不出现在小票中，右侧按钮变灰不可用；开启后启用并显示折扣。勾选「加急费前折扣」时，仅对加急前的项目小计打折，加急费按原价计算；未勾选时，对含加急费的总价打折。例如原价 100、加急倍数 1.2、5 折：勾选时为 100 × 0.5 + 20 = 70；未勾选时为 120 × 0.5 = 60。每一步均四舍五入至两位小数。小票始终先显示加急费，再显示折扣，明细与合计一致。关闭加急费时，两种模式均只对项目小计打折。
+- **物体「件」单位**：在「货币与语言」中选择 **物体 · 简体中文（件）**，界面使用简体中文，输入框、项目明细、小计、加急费、折扣和最终合计均使用「件」，按 `100.00 件` 显示，金额栏改为数量栏。允许两位小数；切换单位保留原有数值，不进行换算。
 - **八种货币选项与地区语言**：人民币（CNY / ¥，简体中文）、新台币（TWD / NT$，台湾繁体中文）、港币（HKD / HK$，香港繁体中文）、FF14 简中服金币（GIL / 金币，简体中文）、FF14 繁中服 gil（GIL / gil，繁体中文）、美元（USD / $，English）、日元（JPY / ¥，日本語）和韩元（KRW / ₩，한국어）。首次打开和重置时默认人民币。切换时，界面、提示、小票固定文字，以及尚未自行修改的默认抬头、项目和备注都会使用对应语言；货币符号与缩写也会同步更新。台湾与香港分别采用「上传／上载」「社群媒体／社交媒体」「宽度／阔度」「急件费／特快处理费」等地区用语，不会只替换繁简字形。金额数值不变，不进行汇率换算。自行填写的抬头、副标题、项目、备注和页脚，以及上传图片中的文字均保留原样。GIL 是游戏内货币的显示单位，不是 ISO 法定货币代码；两个 FF14 服务器分别以 FF14_CN 和 FF14_TW 储存。
 - **自由编辑内容**：自定义抬头、时间范围、项目、备注、页脚，以及大标题下方的副标题；副标题默认为 `RECEIPT`，也可改成任意文字或留空隐藏。
 - **顶部与尾部图片**：分别上传图片，按比例适配票宽，不裁剪。
@@ -20,7 +22,7 @@
 ## 如何使用
 
 1. 打开网站，选择货币与语言，并填写小票抬头、副标题和时间范围。
-2. 添加项目名称与金额，按需开启加急费和备注。
+2. 添加项目名称与金额（「件」模式为数量），按需开启加急费、折扣的「显示」和备注。
 3. 按需上传顶部图片或尾部图片。
 4. 检查预览，点击 **保存小票 PNG**。
 
@@ -61,6 +63,8 @@ Paper is a simple receipt maker. Edit line items, amounts, and receipt text; tot
 
 - **Live two-panel preview:** See the complete receipt and scroll through its details independently.
 - **Automatic totals:** Add, edit, or remove line items and see the subtotal and total update instantly. Negative amounts can be used for deductions, and the rush multiplier is adjustable.
+- **Custom discount:** Enter 0–10 with up to two decimal places; the default is 0. The multiplier is the entered value divided by 10. “Show” appears to the left of “Discount on pre-rush price”. With “Show” off, the discount is inactive and hidden, and the other checkbox is disabled. When enabled, selecting “Discount on pre-rush price” discounts only the original subtotal, keeping the rush fee calculated from the original price. Leaving it unchecked discounts the total including the rush fee. For a subtotal of 100, a rush multiplier of 1.2, and a discount value of 5, the selected mode gives 100 × 0.5 + 20 = 70; the unselected mode gives 120 × 0.5 = 60. Each step is rounded to two decimal places. The receipt always prints the rush fee before the discount. Both modes discount only the subtotal when rush fees are disabled.
+- **Object count unit:** Choose **物体 · 简体中文（件）** in Currency & language for a Simplified Chinese interface using 件 on every input and printed amount, including line items, subtotal, rush fee, discount, and total. Values appear as `100.00 件`, and the amount column becomes a quantity column. Two decimal places remain supported. Switching preserves numeric values without conversion.
 - **Eight currency options and regional languages:** CNY / ¥ (Simplified Chinese), TWD / NT$ (Taiwan Traditional Chinese), HKD / HK$ (Hong Kong Traditional Chinese), FF14 Simplified Chinese server gold / 金币 (GIL, Simplified Chinese), FF14 Traditional Chinese server gil (GIL, Traditional Chinese), USD / $, JPY / ¥, and KRW / ₩. CNY is selected on a fresh visit and after reset. Switching updates the interface, messages, fixed receipt labels, untouched examples, currency symbol, and display code. Taiwan and Hong Kong use distinct regional wording rather than a script-only conversion. User-entered titles, subtitles, items, notes, and footer text remain unchanged, as does text within uploaded images. Numeric amounts stay the same; no exchange-rate conversion is performed. GIL is an in-game currency label, not an ISO fiat code. The two server options are stored separately as FF14_CN and FF14_TW.
 - **Editable receipt text:** Customize the title, service period, line items, notes, footer, and subtitle beneath the main title. The subtitle defaults to `RECEIPT`; enter your own text or leave it blank to hide it.
 - **Header and footer images:** Upload separate images; each scales proportionally to the receipt width without cropping.
@@ -71,7 +75,7 @@ Paper is a simple receipt maker. Edit line items, amounts, and receipt text; tot
 ## How to use
 
 1. Open the app, select a currency and language, and enter the receipt title, subtitle, and service period.
-2. Add item names and amounts; enable the rush fee or notes as needed.
+2. Add item names and amounts (quantities in 件 mode); enable the rush fee, discount “Show”, or notes as needed.
 3. Add a header or footer image if desired.
 4. Review the preview and select **Save receipt PNG**.
 

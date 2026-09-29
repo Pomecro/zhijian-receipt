@@ -49,29 +49,21 @@ select{font:inherit;width:100%;min-height:43px;border:1px solid #ddd;border-radi
 :root:lang(ja){font-family:Arial,"Yu Gothic","Meiryo",sans-serif}:root:lang(ko){font-family:Arial,"Malgun Gothic",sans-serif}
 @media(max-width:1100px){.header-right .auto-hint{display:none}}
 @media(max-width:420px){:root:not(:lang(zh-CN)) .brand-name{font-size:16px;letter-spacing:0}:root:not(:lang(zh-CN)) .header-right .button{font-size:11px;padding:9px 6px}.header-right{gap:6px}}
-/* Keep mobile editing geometry stable when an embedded browser opens its keyboard.
-   Width-based preview sizing avoids keyboard-driven viewport-height changes. */
-@media(max-width:850px){
-  .workspace{min-height:0}
-  .preview-inner{height:clamp(550px,150vw,800px)}
-}
-/* Include narrow windows and touch devices in landscape; retain pinch zoom. */
-@media(max-width:850px),(any-pointer:coarse){
-  .editor input:not([type=checkbox]):not([type=file]),.editor textarea,.editor #note,.editor select{font-size:16px}
-}
+/* Discount controls share the same row and wrap on narrow screens. */
+.discount-block{margin-top:23px}.discount-controls{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:10px}.discount-input{position:relative;width:105px;flex-shrink:0}.discount-input input{padding-right:31px}.discount-input span{position:absolute;right:12px;top:12px;font-size:13px;color:#888;pointer-events:none}.discount-option{display:inline-flex;align-items:center;gap:7px;border:1px solid #ddd;border-radius:5px;padding:11px 10px;min-height:43px;font-size:12px;cursor:pointer}.discount-option input{width:15px;height:15px;min-height:0;padding:0;margin:0;accent-color:#222;flex-shrink:0}.discount-option.disabled{color:#aaa;background:#f5f5f5;cursor:not-allowed}.discount-option input:disabled{cursor:not-allowed}.discount-help{font-size:12px;color:#888;line-height:1.6;margin:9px 0 0}.amount-wrap.unit-suffix span{left:auto;right:11px}.amount-wrap.unit-suffix input{padding-left:10px;padding-right:30px}
 </style>
 </head>
 <body>
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg"><symbol id="download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 15v5h14v-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7h8M8 11h2m4 0h2m-8 4h2m4 0h2" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 10v7m4-7v7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
 <header><div class="brand"><svg class="brand-mark" viewBox="0 0 34 40" fill="none" aria-hidden="true"><path d="M4 2l4 3 4-3 5 3 5-3 4 3 4-3v36l-4-3-4 3-5-3-5 3-4-3-4 3Z" stroke="currentColor" stroke-width="1.5"/><path d="M10 13h14M10 19h14M10 25h9" stroke="currentColor" stroke-width="1.5"/></svg><div><div class="brand-name">纸间</div><div class="wordmark">PAPERWORK</div></div></div><div class="header-right"><span class="auto-hint"><svg aria-hidden="true"><use href="#calc"/></svg>自动计算金额</span><button type="button" class="button primary" id="reset">一键重置</button><a class="button primary author-link" href="https://github.com/Pomecro" target="_blank" rel="noopener noreferrer">前往作者GIT页<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></header>
 <main class="workspace">
-<div class="editor" role="region" aria-label="小票编辑" tabindex="0"><div class="page-kicker">THE RECEIPT STUDIO</div><h1>一张小票，刚刚好。</h1><p class="intro">可自动计算金额、上传图片、提供多种语言支持</p><label class="field currency-field"><span>货币与语言</span><select id="currency"><option value="CNY">人民币 · 中文（CNY ¥）</option><option value="TWD">新臺幣 · 繁體中文（臺灣）（TWD NT$）</option><option value="HKD">港幣 · 繁體中文（香港）（HKD HK$）</option><option value="FF14_CN">FF14 简中服金币 · 简体中文（GIL）</option><option value="FF14_TW">FF14 繁中服 gil · 繁體中文（GIL）</option><option value="USD">美元 · English（USD $）</option><option value="JPY">日元 · 日本語（JPY ¥）</option><option value="KRW">韩元 · 한국어（KRW ₩）</option></select><small class="currency-hint">切换票面语言与货币，金额数值保持不变。</small></label><div class="mobile-hint" hidden><svg aria-hidden="true"><use href="#calc"/></svg>自动计算金额</div>
+<div class="editor" role="region" aria-label="小票编辑" tabindex="0"><div class="page-kicker">THE RECEIPT STUDIO</div><h1>一张小票，刚刚好。</h1><p class="intro">可自动计算金额、上传图片、提供多种语言支持</p><label class="field currency-field"><span>货币与语言</span><select id="currency"><option value="CNY">人民币 · 中文（CNY ¥）</option><option value="TWD">新臺幣 · 繁體中文（臺灣）（TWD NT$）</option><option value="HKD">港幣 · 繁體中文（香港）（HKD HK$）</option><option value="FF14_CN">FF14 简中服金币 · 简体中文（GIL）</option><option value="FF14_TW">FF14 繁中服 gil · 繁體中文（GIL）</option><option value="PIECE">物体 · 简体中文（件）</option><option value="USD">美元 · English（USD $）</option><option value="JPY">日元 · 日本語（JPY ¥）</option><option value="KRW">韩元 · 한국어（KRW ₩）</option></select><small class="currency-hint">切换票面语言与货币，金额数值保持不变。</small></label><div class="mobile-hint" hidden><svg aria-hidden="true"><use href="#calc"/></svg>自动计算金额</div>
 <section class="section"><div class="section-head"><h2><span class="section-no">01</span>小票抬头</h2><span class="optional">你的名字，你的风格</span></div><label class="upload" id="upload-zone"><input type="file" id="image-input" accept="image/png,image/jpeg,image/webp"><span class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 6-6 4 4 3-3 5 5"/></svg></span><span><strong id="upload-text">上传顶部图片</strong><small>PNG、JPG、WebP · 图片等比适应票宽</small></span><span class="upload-end">＋</span></label><button id="remove-image" class="link-button" hidden>移除图片</button><label class="field"><span>抬头名称</span><input id="title" value="好事发生工作室" maxlength="120" placeholder="输入小票抬头"></label><label class="field"><span>副标题文字</span><input id="subtitle" value="RECEIPT" maxlength="120" placeholder="输入副标题，留空则隐藏"></label></section>
 <section class="section"><div class="section-head"><h2><span class="section-no">02</span>时间范围</h2></div><div class="date-row"><label class="field"><span>开始时间</span><input type="datetime-local" id="start" required></label><label class="field"><span>结束时间</span><input type="datetime-local" id="end" required></label></div><p id="date-error" class="date-error" role="alert" hidden>请填写完整时间，结束时间需不早于开始时间。</p></section>
 <section class="section"><div class="section-head"><h2><span class="section-no">03</span>项目明细</h2><span class="optional" id="item-count">3 个项目</span></div><div class="item-labels"><span>项目名称</span><span id="amount-label">金额 / CNY</span><span></span></div><div id="items"></div><button class="button add-item" id="add-item"><span aria-hidden="true">＋</span>添加一个项目</button></section>
-<section class="section"><div class="section-head"><h2><span class="section-no">04</span>加急与备注</h2></div><div class="rush-body"><div><label class="toggle-label"><input class="toggle" type="checkbox" id="rush-enabled" role="switch">加急费</label><p>按项目小计乘以倍数计算总额</p></div><label class="multiplier"><span aria-hidden="true">×</span><input aria-label="加急倍数" id="rush-rate" type="number" min="1" max="100" step="0.01" value="1.2" disabled></label></div><div style="margin-top:23px"><label class="toggle-label"><input class="toggle" type="checkbox" id="note-enabled" role="switch" checked>底部备注<span class="optional">可选</span></label><label class="field" id="note-field"><span class="sr-only">备注文字</span><textarea id="note" maxlength="2000" placeholder="写一句备注，或留一句谢谢。">感谢信任，期待下一次合作。\n愿每一份认真，都有回响。</textarea></label></div><label class="field"><span>小票页脚文字</span><input id="footer" maxlength="200" value="THANK YOU" placeholder="输入页脚文字，留空则隐藏"></label></section>
+<section class="section"><div class="section-head"><h2><span class="section-no">04</span>加急、折扣与备注</h2></div><div class="rush-body"><div><label class="toggle-label"><input class="toggle" type="checkbox" id="rush-enabled" role="switch">加急费</label><p>按项目小计乘以倍数计算总额</p></div><label class="multiplier"><span aria-hidden="true">×</span><input aria-label="加急倍数" id="rush-rate" type="number" min="1" max="100" step="0.01" value="1.2" disabled></label></div><div class="discount-block"><label class="field-label" for="discount-rate">折扣</label><div class="discount-controls"><div class="discount-input"><input id="discount-rate" type="number" min="0" max="10" step="0.01" value="0" aria-label="折扣（几折）" aria-describedby="discount-help"><span aria-hidden="true">折</span></div><label class="discount-option" title="显示并启用折扣"><input id="discount-enabled" type="checkbox" aria-describedby="discount-help">显示</label><label class="discount-option disabled" id="discount-order-label" title="加急费前折扣"><input id="discount-before-rush" type="checkbox" disabled aria-describedby="discount-help">加急费前折扣</label></div><p class="discount-help" id="discount-help">开启“显示”后启用折扣；8 折 = ×0.8，0 折 = ×0。勾选“加急费前折扣”时，仅对加急前的项目小计打折，加急费按原价计算；未勾选时，对含加急费的总价打折。</p></div><div style="margin-top:23px"><label class="toggle-label"><input class="toggle" type="checkbox" id="note-enabled" role="switch" checked>底部备注<span class="optional">可选</span></label><label class="field" id="note-field"><span class="sr-only">备注文字</span><textarea id="note" maxlength="2000" placeholder="写一句备注，或留一句谢谢。">感谢信任，期待下一次合作。\n愿每一份认真，都有回响。</textarea></label></div><label class="field"><span>小票页脚文字</span><input id="footer" maxlength="200" value="THANK YOU" placeholder="输入页脚文字，留空则隐藏"></label></section>
 <section class="section"><div class="section-head"><h2><span class="section-no">05</span>小票尾部图片</h2><span class="optional">可选 · 上下留白</span></div><label class="upload" id="footer-upload-zone"><input type="file" id="footer-image-input" accept="image/png,image/jpeg,image/webp"><span class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 6-6 4 4 3-3 5 5"/></svg></span><span><strong id="footer-upload-text">上传尾部图片</strong><small>PNG、JPG、WebP · 图片等比适应票宽</small></span><span class="upload-end">＋</span></label><button id="remove-footer-image" class="link-button" hidden>移除图片</button></section>
-<div class="summary" aria-live="polite"><span>合计金额</span><strong id="total">¥ 1,100.00</strong></div><p class="formula" id="formula">合计 = 项目小计</p>
+<div class="summary" aria-live="polite"><span id="summary-label">合计金额</span><strong id="total">¥ 1,100.00</strong></div><p class="formula" id="formula">合计 = 项目小计</p>
 </div>
 <aside class="preview-panel" aria-label="小票实时预览"><div class="preview-inner"><div class="preview-top"><span>小票预览</span><span class="live">LIVE PREVIEW</span></div><div class="preview-split"><section class="preview-view preview-overview" aria-label="完整预览"><div class="preview-label">完整预览</div><div class="overview-stage"><canvas id="receipt-overview" role="img" aria-label="完整小票预览"></canvas></div></section><section class="preview-view preview-detail"><div class="preview-label">细节预览 · 上下滚动</div><div class="receipt-stage" role="region" aria-label="小票细节滚动预览" tabindex="0"><canvas id="receipt" role="img" aria-label="小票实时预览"></canvas></div></section></div><div class="preview-actions"><div class="preview-bottom"><button class="button primary export"><svg aria-hidden="true"><use href="#download"/></svg>保存小票 PNG</button><span class="export-meta"><span>所见即所得</span> <span>本地生成不上传</span> <span>小票为模板非AI生图</span></span><span class="optional" id="dimensions"></span></div><div class="footnote">@Pomecro</div></div></div></aside>
 </main><div class="toast" id="toast" role="status"></div>
@@ -747,6 +739,120 @@ const translations={
     "FF14 繁中服 gil · 繁體中文（GIL）"
   ]
 };
+Object.assign(translations, {
+  "物体 · 简体中文（件）": [
+    "Objects · 简体中文 (件)",
+    "物体 · 简体中文（件）",
+    "물체 · 简体中文 (件)",
+    "物體 · 簡體中文（件）",
+    "物件 · 簡體中文（件）"
+  ],
+  "加急、折扣与备注": [
+    "Rush fee, discount & notes",
+    "お急ぎ料金・割引・備考",
+    "급행 요금, 할인 및 메모",
+    "急件費、折扣與備註",
+    "特快處理費、折扣及備註"
+  ],
+  "折扣": [
+    "Discount",
+    "割引",
+    "할인",
+    "折扣",
+    "折扣"
+  ],
+  "折扣（几折）": [
+    "Discount (tenths of the price)",
+    "割引後の割合（元の価格の10分の1単位）",
+    "할인 적용 비율 (원가의 10분의 1 단위)",
+    "折扣（幾折）",
+    "折扣（幾折）"
+  ],
+  "折": [
+    "/ 10",
+    "/ 10",
+    "/ 10",
+    "折",
+    "折"
+  ],
+  "显示": [
+    "Show",
+    "表示",
+    "표시",
+    "顯示",
+    "顯示"
+  ],
+  "显示并启用折扣": [
+    "Show and enable discount",
+    "割引を表示して適用",
+    "할인 표시 및 적용",
+    "顯示並啟用折扣",
+    "顯示並啟用折扣"
+  ],
+  "折扣请填写 0–10，最多两位小数。": [
+    "Enter a discount from 0 to 10, with up to two decimal places.",
+    "割引の値は0～10、小数点以下2桁までで入力してください。",
+    "할인 값은 0–10, 소수점 둘째 자리까지 입력하세요.",
+    "折扣請填寫 0–10，最多兩位小數。",
+    "折扣請填寫 0–10，最多兩位小數。"
+  ],
+  "折扣（{rate} 折）": [
+    "Discount ({rate} / 10)",
+    "割引（{rate} / 10）",
+    "할인 ({rate} / 10)",
+    "折扣（{rate} 折）",
+    "折扣（{rate} 折）"
+  ],
+  "合计 = {subtotal} × {factor}（{discount} 折）": [
+    "Total = {subtotal} × {factor} ({discount} / 10)",
+    "合計 = {subtotal} × {factor}（{discount} / 10）",
+    "합계 = {subtotal} × {factor} ({discount} / 10)",
+    "合計 = {subtotal} × {factor}（{discount} 折）",
+    "合計 = {subtotal} × {factor}（{discount} 折）"
+  ],
+  "每一步均四舍五入至两位小数。": [
+    "Each step is rounded to two decimal places.",
+    "各段階で小数点以下2桁に四捨五入します。",
+    "각 단계에서 소수점 둘째 자리까지 반올림합니다.",
+    "每一步均四捨五入至兩位小數。",
+    "每一步均四捨五入至兩位小數。"
+  ],
+  "请先检查时间、项目金额、加急倍数和折扣。": [
+    "Check the dates, item amounts, rush multiplier, and discount first.",
+    "日時・金額・お急ぎ倍率・割引を確認してください。",
+    "시간, 항목 금액, 급행 배수 및 할인을 확인하세요.",
+    "請先檢查時間、項目金額、急件倍數和折扣。",
+    "請先檢查時間、項目金額、特快處理倍數及折扣。"
+  ],
+  "加急费前折扣": [
+    "Discount on pre-rush price",
+    "お急ぎ料金を除いて割引",
+    "급행 요금 제외 할인",
+    "急件費前折扣",
+    "特快處理費前折扣"
+  ],
+  "开启“显示”后启用折扣；8 折 = ×0.8，0 折 = ×0。勾选“加急费前折扣”时，仅对加急前的项目小计打折，加急费按原价计算；未勾选时，对含加急费的总价打折。": [
+    "Turn on “Show” to apply the discount. 8 / 10 = ×0.8; 0 / 10 = ×0. Select “Discount on pre-rush price” to discount only the original subtotal; the rush fee stays based on the original price. Otherwise, discount the total including the rush fee.",
+    "「表示」をオンにすると割引を適用。8 / 10 = ×0.8、0 / 10 = ×0。「お急ぎ料金を除いて割引」を選ぶと元の小計のみを割引し、お急ぎ料金は元の価格で計算します。未選択なら、お急ぎ料金を含む合計を割引します。",
+    "“표시”를 켜면 할인이 적용됩니다. 8 / 10 = ×0.8, 0 / 10 = ×0. “급행 요금 제외 할인”을 선택하면 원래 소계에만 할인을 적용하며 급행 요금은 원가 기준으로 유지합니다. 선택하지 않으면 급행 요금을 포함한 총액에 할인을 적용합니다.",
+    "開啟「顯示」後啟用折扣；8 折 = ×0.8，0 折 = ×0。勾選「急件費前折扣」時，僅對加急前的項目小計打折，急件費按原價計算；未勾選時，對含急件費的總價打折。",
+    "開啟「顯示」後啟用折扣；8 折 = ×0.8，0 折 = ×0。勾選「特快處理費前折扣」時，只對加急前的項目小計打折，特快處理費按原價計算；未勾選時，對含特快處理費的總價打折。"
+  ],
+  "合计 = {subtotal} × {factor} + {rush}（原价加急费）": [
+    "Total = {subtotal} × {factor} + {rush} (rush fee at original price)",
+    "合計 = {subtotal} × {factor} + {rush}（元の価格で計算したお急ぎ料金）",
+    "합계 = {subtotal} × {factor} + {rush} (원가 기준 급행 요금)",
+    "合計 = {subtotal} × {factor} + {rush}（原價急件費）",
+    "合計 = {subtotal} × {factor} + {rush}（原價特快處理費）"
+  ],
+  "合计 =（{subtotal} × {rate}）× {factor}；含加急费一起打折": [
+    "Total = ({subtotal} × {rate}) × {factor}; discount includes the rush fee",
+    "合計 =（{subtotal} × {rate}）× {factor}；お急ぎ料金を含めて割引",
+    "합계 = ({subtotal} × {rate}) × {factor}; 급행 요금을 포함하여 할인",
+    "合計 =（{subtotal} × {rate}）× {factor}；含急件費一起打折",
+    "合計 =（{subtotal} × {rate}）× {factor}；含特快處理費一起打折"
+  ]
+});
 // Selection IDs distinguish the two FF14 servers; code is the printed currency abbreviation.
 const currencies={
   CNY:{symbol:'¥',code:'CNY',lang:'zh-CN',locale:'zh-CN',index:-1,font:'"Microsoft YaHei", sans-serif'},
@@ -754,6 +860,7 @@ const currencies={
   HKD:{symbol:'HK$',code:'HKD',lang:'zh-HK',locale:'zh-HK',index:4,font:'"PingFang HK", "Microsoft JhengHei", sans-serif'},
   FF14_CN:{symbol:'金币',code:'GIL',lang:'zh-CN',locale:'zh-CN',index:-1,font:'"Microsoft YaHei", sans-serif'},
   FF14_TW:{symbol:'gil',code:'GIL',lang:'zh-TW',locale:'zh-TW',index:3,font:'"PingFang TC", "Microsoft JhengHei", sans-serif'},
+  PIECE:{symbol:'件',code:'件',lang:'zh-CN',locale:'zh-CN',index:-1,font:'"Microsoft YaHei", sans-serif',unitSuffix:true},
   USD:{symbol:'$',code:'USD',lang:'en',locale:'en-US',index:0,font:'Arial, sans-serif'},
   JPY:{symbol:'¥',code:'JPY',lang:'ja',locale:'ja-JP',index:1,font:'"Yu Gothic", "Meiryo", sans-serif'},
   KRW:{symbol:'₩',code:'KRW',lang:'ko',locale:'ko-KR',index:2,font:'"Malgun Gothic", sans-serif'}
@@ -764,8 +871,8 @@ function tr(key,values={},code=$('currency').value){const index=(currencies[code
 const localeNodes=[],localeAttributes=[];
 const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
 while(walker.nextNode()){const node=walker.currentNode,key=node.textContent.trim();if(translations[key]&&!node.parentElement.closest('script,textarea,#upload-text,#footer-upload-text'))localeNodes.push({node,key})}
-document.querySelectorAll('[placeholder],[aria-label]').forEach(node=>{for(const attr of ['placeholder','aria-label']){const key=node.getAttribute(attr);if(translations[key])localeAttributes.push({node,attr,key})}});
-function applyLocale(){if(!currencies[$('currency').value])$('currency').value='CNY';document.documentElement.lang=currency().lang;document.title=tr('纸间 · 小票生成器');localeNodes.forEach(({node,key})=>node.textContent=tr(key));localeAttributes.forEach(({node,attr,key})=>node.setAttribute(attr,tr(key)));for(const slot of Object.values(imageSlots))$(slot.text).textContent=state[slot.name]||tr(slot.label);$('amount-label').textContent=tr('金额 / {code}',{code:currency().code})}
+document.querySelectorAll('[placeholder],[aria-label],[title]').forEach(node=>{for(const attr of ['placeholder','aria-label','title']){const key=node.getAttribute(attr);if(translations[key])localeAttributes.push({node,attr,key})}});
+function applyLocale(){if(!currencies[$('currency').value])$('currency').value='CNY';document.documentElement.lang=currency().lang;document.title=tr('纸间 · 小票生成器');localeNodes.forEach(({node,key})=>node.textContent=tr(key));localeAttributes.forEach(({node,attr,key})=>node.setAttribute(attr,tr(key)));for(const slot of Object.values(imageSlots))$(slot.text).textContent=state[slot.name]||tr(slot.label);$('amount-label').textContent=amountHeading();$('summary-label').textContent=currency().unitSuffix?'合计数量':tr('合计金额')}
 function switchCurrency(previous){
   clearTimeout(toast.timer);$('toast').classList.remove('show');
   // Translate untouched examples only. Authored content is preserved exactly.
@@ -777,37 +884,73 @@ function switchCurrency(previous){
 const canvas=$('receipt'),ctx=canvas.getContext('2d');
 const money=n=>Number(n).toLocaleString(currency().locale,{minimumFractionDigits:2,maximumFractionDigits:2});
 const cents=s=>Math.round((Number(s)||0)*100);
-function getTotals(){const subtotal=state.items.reduce((sum,item)=>sum+cents(item.amount),0);const rate=$('rush-enabled').checked?Number($('rush-rate').value):1;const total=Math.round(subtotal*rate);return{subtotal,total,rate,rush:total-subtotal}}
-function valid(){const dates=$('start').value&&$('end').value&&$('end').value>=$('start').value;const amounts=state.items.every(i=>i.amount.trim()!==''&&Number.isFinite(Number(i.amount))&&Math.abs(Number(i.amount))<=999999999&&/^-?\d*(\.\d{0,2})?$/.test(i.amount));const rate=!$('rush-enabled').checked||($('rush-rate').checkValidity()&&Number($('rush-rate').value)>=1);return{dates,amounts,rate,ok:dates&&amounts&&rate}}
+const amountHeading=()=>currency().unitSuffix?'数量 / 件':tr('金额 / {code}',{code:currency().code});
+const withUnit=n=>currency().unitSuffix?money(n)+' 件':currency().symbol+' '+money(n);
+const receiptAmount=n=>currency().unitSuffix?withUnit(n):money(n);
+// Use integer rate numerators to avoid binary floating-point errors at half-cent boundaries.
+const applyRatio=(amount,numerator,denominator)=>Math.sign(amount)*Math.round(Math.abs(amount)*numerator/denominator);
+function getTotals(){
+  const subtotal=state.items.reduce((sum,item)=>sum+cents(item.amount),0);
+  const rate=$('rush-enabled').checked?Number($('rush-rate').value):1;
+  const discountEnabled=$('discount-enabled').checked;
+  const discountRate=Number($('discount-rate').value);
+  const factor=discountEnabled?discountRate/10:1;
+  const beforeRush=discountEnabled&&$('discount-before-rush').checked;
+  const rushNumerator=Math.round(rate*100),discountNumerator=discountEnabled?Math.round(discountRate*100):1000;
+  // The checkbox selects the discount base. Rush fees always use the original subtotal.
+  const rushed=applyRatio(subtotal,rushNumerator,100);
+  const rush=rushed-subtotal;
+  const discountBase=beforeRush?subtotal:rushed;
+  const discount=applyRatio(discountBase,discountNumerator,1000)-discountBase;
+  const total=rushed+discount;
+  return{subtotal,total,rate,rush,discount,discountRate,factor,discountEnabled,beforeRush};
+}
+function valid(){const dates=$('start').value&&$('end').value&&$('end').value>=$('start').value;const amounts=state.items.every(i=>i.amount.trim()!==''&&Number.isFinite(Number(i.amount))&&Math.abs(Number(i.amount))<=999999999&&/^-?\d*(\.\d{0,2})?$/.test(i.amount));const rate=!$('rush-enabled').checked||($('rush-rate').checkValidity()&&Number($('rush-rate').value)>=1);const discount=!$('discount-enabled').checked||($('discount-rate').value.trim()!==''&&$('discount-rate').checkValidity()&&Number.isFinite(Number($('discount-rate').value))&&Number($('discount-rate').value)>=0&&Number($('discount-rate').value)<=10);return{dates,amounts,rate,discount,ok:dates&&amounts&&rate&&discount}}
 function toast(message){$('toast').textContent=message;$('toast').classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.remove('show'),3200)}
-function renderItems(){const fragment=document.createDocumentFragment();state.items.forEach((item,index)=>{const row=document.createElement('div');row.className='item-row';const name=document.createElement('input');name.value=item.name;name.maxLength=200;name.placeholder=tr('项目名称');name.setAttribute('aria-label',tr('项目 {n} 名称',{n:index+1}));name.addEventListener('input',()=>{item.name=name.value;render()});const wrap=document.createElement('div');wrap.className='amount-wrap';const symbol=document.createElement('span');symbol.textContent=currency().symbol;wrap.style.setProperty('--currency-symbol-width',currency().symbol.length>1?'45px':'28px');const amount=document.createElement('input');amount.type='number';amount.step='0.01';amount.min='-999999999';amount.max='999999999';amount.value=item.amount;amount.setAttribute('aria-label',tr('项目 {n} 金额',{n:index+1}));amount.addEventListener('input',()=>{item.amount=amount.value;render()});wrap.append(symbol,amount);const remove=document.createElement('button');remove.className='remove';remove.setAttribute('aria-label',tr('删除项目 {n}',{n:index+1}));remove.innerHTML='<svg aria-hidden="true"><use href="#trash"/></svg>';remove.addEventListener('click',()=>{state.items=state.items.filter(i=>i.id!==item.id);renderItems();render();const targets=$('items').querySelectorAll('.remove');(targets[Math.min(index,targets.length-1)]||$('add-item')).focus()});row.append(name,wrap,remove);fragment.append(row)});$('items').replaceChildren(fragment);if(!state.items.length){const empty=document.createElement('div');empty.className='empty-items';empty.textContent=tr('还没有项目，添加第一笔吧。');$('items').append(empty)}$('item-count').textContent=tr('{n} 个项目',{n:state.items.length})}
+function renderItems(){const fragment=document.createDocumentFragment();state.items.forEach((item,index)=>{const row=document.createElement('div');row.className='item-row';const name=document.createElement('input');name.value=item.name;name.maxLength=200;name.placeholder=tr('项目名称');name.setAttribute('aria-label',tr('项目 {n} 名称',{n:index+1}));name.addEventListener('input',()=>{item.name=name.value;render()});const wrap=document.createElement('div');wrap.className='amount-wrap'+(currency().unitSuffix?' unit-suffix':'');const symbol=document.createElement('span');symbol.textContent=currency().symbol;wrap.style.setProperty('--currency-symbol-width',currency().symbol.length>1?'45px':'28px');const amount=document.createElement('input');amount.type='number';amount.step='0.01';amount.min='-999999999';amount.max='999999999';amount.value=item.amount;amount.setAttribute('aria-label',currency().unitSuffix?`项目 ${index+1} 数量（件）`:tr('项目 {n} 金额',{n:index+1}));amount.addEventListener('input',()=>{item.amount=amount.value;render()});wrap.append(symbol,amount);const remove=document.createElement('button');remove.className='remove';remove.setAttribute('aria-label',tr('删除项目 {n}',{n:index+1}));remove.innerHTML='<svg aria-hidden="true"><use href="#trash"/></svg>';remove.addEventListener('click',()=>{state.items=state.items.filter(i=>i.id!==item.id);renderItems();render();const targets=$('items').querySelectorAll('.remove');(targets[Math.min(index,targets.length-1)]||$('add-item')).focus()});row.append(name,wrap,remove);fragment.append(row)});$('items').replaceChildren(fragment);if(!state.items.length){const empty=document.createElement('div');empty.className='empty-items';empty.textContent=tr('还没有项目，添加第一笔吧。');$('items').append(empty)}$('item-count').textContent=tr('{n} 个项目',{n:state.items.length})}
 function wrapText(text,width,font){ctx.font=font;const lines=[];String(text).split('\n').forEach(paragraph=>{let line='';for(const char of paragraph){if(ctx.measureText(line+char).width>width&&line){lines.push(line);line=char}else line+=char}lines.push(line)});return lines}
 const fontFamily=()=>currency().font;
 const fonts={body:'14px "Microsoft YaHei", sans-serif',small:'11px "Microsoft YaHei", sans-serif',mono:'13px Consolas, monospace',title:'600 25px "Songti SC", "SimSun", serif'};
-function render(){fonts.body='14px '+fontFamily();fonts.small='11px '+fontFamily();fonts.title='600 25px '+(currency().lang==='zh-CN'?'"Songti SC", "SimSun", serif':fontFamily());saveDraft();const checks=valid(),totals=getTotals();$('date-error').hidden=!!checks.dates;$('rush-rate').disabled=!$('rush-enabled').checked;$('note-field').hidden=!$('note-enabled').checked;$('total').textContent=checks.amounts&&checks.rate?`${currency().symbol} ${money(totals.total/100)}`:'—';$('formula').textContent=!checks.amounts?tr('请填写有效金额，最多两位小数（负数可用于抵扣）。'):!checks.rate?tr('加急倍数请填写 1–100，最多两位小数。'):$('rush-enabled').checked?tr('合计 = {subtotal} × {rate}（加急费 {rush}）',{subtotal:currency().symbol+' '+money(totals.subtotal/100),rate:totals.rate,rush:currency().symbol+' '+money(totals.rush/100)}):tr('合计 = 项目小计');
+function render(){fonts.body='14px '+fontFamily();fonts.small='11px '+fontFamily();fonts.title='600 25px '+(currency().lang==='zh-CN'?'"Songti SC", "SimSun", serif':fontFamily());
+  saveDraft();const checks=valid(),totals=getTotals(),calculationValid=checks.amounts&&checks.rate&&checks.discount;
+  $('date-error').hidden=!!checks.dates;$('rush-rate').disabled=!$('rush-enabled').checked;
+  $('discount-before-rush').disabled=!totals.discountEnabled;$('discount-order-label').classList.toggle('disabled',!totals.discountEnabled);
+  $('note-field').hidden=!$('note-enabled').checked;$('total').textContent=calculationValid?withUnit(totals.total/100):'—';
+  const formulaValues={subtotal:withUnit(totals.subtotal/100),rate:totals.rate,rush:withUnit(totals.rush/100),factor:totals.factor,discount:totals.discountRate};
+  let formula;
+  if(!checks.amounts)formula=tr('请填写有效金额，最多两位小数（负数可用于抵扣）。');
+  else if(!checks.rate)formula=tr('加急倍数请填写 1–100，最多两位小数。');
+  else if(!checks.discount)formula=tr('折扣请填写 0–10，最多两位小数。');
+  else if(totals.discountEnabled){
+    formula=tr($('rush-enabled').checked?(totals.beforeRush?'合计 = {subtotal} × {factor} + {rush}（原价加急费）':'合计 =（{subtotal} × {rate}）× {factor}；含加急费一起打折'):'合计 = {subtotal} × {factor}（{discount} 折）',formulaValues);
+    formula+='。'+tr('每一步均四舍五入至两位小数。');
+  }else formula=$('rush-enabled').checked?tr('合计 = {subtotal} × {rate}（加急费 {rush}）',formulaValues):tr('合计 = 项目小计');
+  $('formula').textContent=formula;
 const W=360,pad=29,inner=W-pad*2,ops=[];let y=36;
 const text=(value,x,yy,font=fonts.body,align='left',color='#191919')=>ops.push(()=>{ctx.font=font;ctx.fillStyle=color;ctx.textAlign=align;ctx.fillText(value,x,yy)});
 const line=(yy,dashed=true)=>ops.push(()=>{ctx.beginPath();ctx.strokeStyle='#aaa';ctx.lineWidth=.6;ctx.setLineDash(dashed?[3,3]:[]);ctx.moveTo(pad,yy);ctx.lineTo(W-pad,yy);ctx.stroke();ctx.setLineDash([])});
 if(state.image){const img=state.image;const h=inner*img.height/img.width;ops.push(()=>ctx.drawImage(img,pad,yImage,inner,h));const yImage=y;y+=h+25}
 const titleLines=wrapText($('title').value||tr('未命名小票'),inner,fonts.title);titleLines.forEach(s=>{text(s,W/2,y+25,fonts.title,'center');y+=35});y+=4;const subtitle=$('subtitle').value.trim();if(subtitle){const subtitleFont='10px '+fontFamily();wrapText(subtitle==='RECEIPT'?'R E C E I P T':subtitle,inner,subtitleFont).forEach(s=>{text(s,W/2,y+10,subtitleFont,'center','#777');y+=17});y+=18}else y+=12;line(y);y+=26;
 text(tr('时间范围'),pad,y,fonts.small,'left','#777');text($('currency').value==='USD'?'':'SERVICE PERIOD',W-pad,y,'9px Consolas, monospace','right','#888');y+=23;
-const dateParts=s=>s?[s.slice(0,10).replaceAll('-','.'),s.slice(11,16)]:[tr('未设置'),''];const [startDate,startTime]=dateParts($('start').value),[endDate,endTime]=dateParts($('end').value);const startX=pad+inner*.22,endX=W-pad-inner*.22;text(startDate,startX,y,fonts.mono,'center');text('～',W/2,y,fonts.body,'center');text(endDate,endX,y,fonts.mono,'center');y+=22;text(startTime,startX,y,fonts.mono,'center');text(endTime,endX,y,fonts.mono,'center');y+=23;line(y);y+=26;text(tr('项目 / ITEM'),pad,y,fonts.small,'left','#777');text(tr('金额 / {code}',{code:currency().code}),W-pad,y,fonts.small,'right','#777');y+=27;
+const dateParts=s=>s?[s.slice(0,10).replaceAll('-','.'),s.slice(11,16)]:[tr('未设置'),''];const [startDate,startTime]=dateParts($('start').value),[endDate,endTime]=dateParts($('end').value);const startX=pad+inner*.22,endX=W-pad-inner*.22;text(startDate,startX,y,fonts.mono,'center');text('～',W/2,y,fonts.body,'center');text(endDate,endX,y,fonts.mono,'center');y+=22;text(startTime,startX,y,fonts.mono,'center');text(endTime,endX,y,fonts.mono,'center');y+=23;line(y);y+=26;text(tr('项目 / ITEM'),pad,y,fonts.small,'left','#777');text(amountHeading(),W-pad,y,fonts.small,'right','#777');y+=27;
 if(!state.items.length){text(tr('暂无项目'),W/2,y,fonts.body,'center','#888');y+=29}
-state.items.forEach((item,index)=>{const amount=checks.amounts?money(cents(item.amount)/100):'—';ctx.font=fonts.mono;const amountWidth=Math.max(70,ctx.measureText(amount).width+15);const lines=wrapText(item.name||tr('未命名项目'),inner-amountWidth-24,fonts.body);text(String(index+1).padStart(2,'0'),pad,y,'10px Consolas, monospace','left','#999');lines.forEach((s,i)=>text(s,pad+24,y+i*22));text(amount,W-pad,y,fonts.mono,'right');y+=Math.max(1,lines.length)*22+13});y+=1;line(y);y+=28;
-text(tr('项目小计'),pad,y,fonts.body);text(checks.amounts?money(totals.subtotal/100):'—',W-pad,y,fonts.mono,'right');y+=28;
-if($('rush-enabled').checked){text(tr('加急费')+(checks.rate?`（×${totals.rate}）`:''),pad,y,fonts.body);text(checks.amounts&&checks.rate?money(totals.rush/100):'—',W-pad,y,fonts.mono,'right');y+=28}
-line(y,false);y+=37;text(tr('合计'),pad,y,'600 16px '+fontFamily());const totalText=checks.amounts&&checks.rate?`${currency().symbol} ${money(totals.total/100)}`:'—';ctx.font='600 16px '+fontFamily();const totalLabelWidth=ctx.measureText(tr('合计')).width+15;let totalSize=30;while(totalSize>15){ctx.font=`600 ${totalSize}px Consolas, monospace`;if(ctx.measureText(totalText).width<inner-totalLabelWidth)break;totalSize--}text(totalText,W-pad,y+2,`600 ${totalSize}px Consolas, monospace`,'right');y+=27;line(y,false);y+=29;
+state.items.forEach((item,index)=>{const amount=checks.amounts?receiptAmount(cents(item.amount)/100):'—';ctx.font=fonts.mono;const amountWidth=Math.max(70,ctx.measureText(amount).width+15);const lines=wrapText(item.name||tr('未命名项目'),inner-amountWidth-24,fonts.body);text(String(index+1).padStart(2,'0'),pad,y,'10px Consolas, monospace','left','#999');lines.forEach((s,i)=>text(s,pad+24,y+i*22));text(amount,W-pad,y,fonts.mono,'right');y+=Math.max(1,lines.length)*22+13});y+=1;line(y);y+=28;
+text(tr('项目小计'),pad,y,fonts.body);text(checks.amounts?receiptAmount(totals.subtotal/100):'—',W-pad,y,fonts.mono,'right');y+=28;
+const discountRow=()=>{text(tr('折扣（{rate} 折）',{rate:totals.discountRate}),pad,y,fonts.body);text(calculationValid?receiptAmount(totals.discount/100):'—',W-pad,y,fonts.mono,'right');y+=28};
+if($('rush-enabled').checked){text(tr('加急费')+(checks.rate?`（×${totals.rate}）`:''),pad,y,fonts.body);text(calculationValid?receiptAmount(totals.rush/100):'—',W-pad,y,fonts.mono,'right');y+=28}
+if(totals.discountEnabled)discountRow();
+line(y,false);y+=37;text(tr('合计'),pad,y,'600 16px '+fontFamily());const totalText=calculationValid?withUnit(totals.total/100):'—';ctx.font='600 16px '+fontFamily();const totalLabelWidth=ctx.measureText(tr('合计')).width+15;let totalSize=30;while(totalSize>15){ctx.font=`600 ${totalSize}px Consolas, monospace`;if(ctx.measureText(totalText).width<inner-totalLabelWidth)break;totalSize--}text(totalText,W-pad,y+2,`600 ${totalSize}px Consolas, monospace`,'right');y+=27;line(y,false);y+=29;
 if($('note-enabled').checked&&$('note').value.trim()){text(tr('备注 / NOTE'),pad,y,'10px '+fontFamily(),'left','#777');y+=23;const noteFont='400 13px '+fontFamily();wrapText($('note').value,inner,noteFont).forEach(s=>{text(s,pad,y,noteFont,'left','#333');y+=21});y+=13}
 if($('footer').value.trim()){const footerFont='500 14px '+fontFamily();wrapText($('footer').value.trim(),inner,footerFont).forEach(s=>{text(s,W/2,y+5,footerFont,'center','#333');y+=23});y+=3}text('·  ·  ·',W/2,y,'14px Georgia, serif','center','#aaa');y+=33;
 if(state.footerImage){const img=state.footerImage,h=inner*img.height/img.width;const imageY=y;ops.push(()=>ctx.drawImage(img,pad,imageY,inner,h));y+=h+25}
 const H=Math.ceil(y);canvas.width=W*3;canvas.height=H*3;canvas.style.aspectRatio=`${W} / ${H}`;ctx.scale(3,3);ctx.fillStyle='white';ctx.beginPath();ctx.moveTo(0,9);for(let x=0;x<W;x+=12){ctx.lineTo(x+6,0);ctx.lineTo(x+12,9)}ctx.lineTo(W,H-9);for(let x=W;x>0;x-=12){ctx.lineTo(x-6,H);ctx.lineTo(x-12,H-9)}ctx.closePath();ctx.fill();ops.forEach(op=>op());$('dimensions').textContent=`${canvas.width} × ${canvas.height} px`;
-canvas.setAttribute('aria-label',tr('{title}，{n} 个项目，合计 {amount} {code}',{title:$('title').value,n:state.items.length,amount:checks.amounts&&checks.rate?money(totals.total/100):tr('待填写'),code:currency().code}));
+canvas.setAttribute('aria-label',tr('{title}，{n} 个项目，合计 {amount} {code}',{title:$('title').value,n:state.items.length,amount:calculationValid?money(totals.total/100):tr('待填写'),code:currency().code}));
 const overview=$('receipt-overview');overview.width=W;overview.height=H;overview.getContext('2d').drawImage(canvas,0,0,W,H);overview.setAttribute('aria-label',tr('完整预览：')+canvas.getAttribute('aria-label'));
 }
-function exportPNG(){if(!valid().ok){toast(tr('请先检查时间、项目金额和加急倍数。'));return}render();const buttons=document.querySelectorAll('.export');buttons.forEach(b=>b.disabled=true);canvas.toBlob(blob=>{buttons.forEach(b=>b.disabled=false);if(!blob){toast(tr('图片生成失败，请重试。'));return}const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=($('title').value||tr('小票')).replace(/[<>:"/\\|?*\u0000-\u001f]/g,'_')+'_'+$('start').value.slice(0,10)+'.png';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);toast(tr('小票已生成，PNG 下载已开始。'))},'image/png')}
+function exportPNG(){if(!valid().ok){toast(tr('请先检查时间、项目金额、加急倍数和折扣。'));return}render();const buttons=document.querySelectorAll('.export');buttons.forEach(b=>b.disabled=true);canvas.toBlob(blob=>{buttons.forEach(b=>b.disabled=false);if(!blob){toast(tr('图片生成失败，请重试。'));return}const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=($('title').value||tr('小票')).replace(/[<>:"/\\|?*\u0000-\u001f]/g,'_')+'_'+$('start').value.slice(0,10)+'.png';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);toast(tr('小票已生成，PNG 下载已开始。'))},'image/png')}
 // Small form values are saved synchronously; original image Blobs use IndexedDB.
 const draftKey='paperwork.receipt.draft.v1';
-const fieldIds=['currency','subtitle','title','start','end','rush-enabled','rush-rate','note-enabled','note','footer'];
+const fieldIds=['currency','subtitle','title','start','end','rush-enabled','rush-rate','discount-rate','discount-before-rush','discount-enabled','note-enabled','note','footer'];
 let storageReady=false,storageWarningShown=false,imageDatabase;
 const imageSlots={
   header:{value:'image',name:'imageName',input:'image-input',zone:'upload-zone',text:'upload-text',remove:'remove-image',label:'上传顶部图片',request:0},
@@ -832,7 +975,7 @@ Object.entries(imageSlots).forEach(([key,slot])=>{
   $(slot.remove).addEventListener('click',()=>{slot.request++;updateImageUI(slot);render();imageStorage('readwrite',store=>store.delete(key)).catch(storageWarning)});
 });
 $('add-item').addEventListener('click',()=>{state.items.push({id:state.nextId++,name:'',amount:'0'});renderItems();render();$('items').lastElementChild.querySelector('input').focus()});
-['subtitle','title','start','end','rush-enabled','rush-rate','note-enabled','note','footer'].forEach(id=>$(id).addEventListener('input',render));document.querySelectorAll('.export').forEach(b=>b.addEventListener('click',exportPNG));
+['subtitle','title','start','end','rush-enabled','rush-rate','discount-rate','discount-before-rush','discount-enabled','note-enabled','note','footer'].forEach(id=>$(id).addEventListener('input',render));document.querySelectorAll('.export').forEach(b=>b.addEventListener('click',exportPNG));
 document.querySelector('.overview-stage').addEventListener('wheel',event=>event.preventDefault(),{passive:false});
 function defaultDates(){const today=new Date();const date=[today.getFullYear(),String(today.getMonth()+1).padStart(2,'0'),String(today.getDate()).padStart(2,'0')].join('-');$('start').value=date+'T09:00';$('end').value=date+'T18:00'}
 defaultDates();$('note').value=$('note').value.replaceAll('\\n','\n');
@@ -846,7 +989,7 @@ $('reset').addEventListener('click',()=>{
 });
 restoreDraft();applyLocale();let activeCurrency=$('currency').value;$('currency').addEventListener('change',()=>{switchCurrency(activeCurrency);activeCurrency=$('currency').value});storageReady=true;renderItems();render();
 Object.keys(imageSlots).forEach(restoreImage);document.fonts.ready.then(render);
-if(document.modelContext?.registerTool){const lifecycle=new AbortController();const readReceipt=()=>({currency:$('currency').value,subtitle:$('subtitle').value,title:$('title').value,start:$('start').value,end:$('end').value,items:state.items.map(({name,amount})=>({name,amount:Number(amount)})),rushEnabled:$('rush-enabled').checked,rushRate:Number($('rush-rate').value),noteEnabled:$('note-enabled').checked,note:$('note').value,footer:$('footer').value,subtotal:getTotals().subtotal/100,rushFee:getTotals().rush/100,total:getTotals().total/100,valid:!!valid().ok});const config={name:'configure_receipt',title:'编辑小票',description:'批量修改小票抬头、明细、时间范围、加急倍数及备注，并返回自动计算的合计金额。不会下载或上传文件。',inputSchema:{type:'object',properties:{currency:{type:'string',enum:Object.keys(currencies)},subtitle:{type:'string',maxLength:120},title:{type:'string',maxLength:120},start:{type:'string'},end:{type:'string'},items:{type:'array',items:{type:'object',properties:{name:{type:'string',maxLength:200},amount:{type:'number',minimum:-999999999,maximum:999999999}},required:['name','amount'],additionalProperties:false}},rushEnabled:{type:'boolean'},rushRate:{type:'number',minimum:1,maximum:100},noteEnabled:{type:'boolean'},note:{type:'string',maxLength:2000},footer:{type:'string',maxLength:200}},additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:true},execute(input){if(!input||typeof input!=='object'||Array.isArray(input))throw new Error('请提供小票配置对象');const allowed=['currency','subtitle','title','start','end','items','rushEnabled','rushRate','noteEnabled','note','footer'];if(Object.keys(input).some(k=>!allowed.includes(k)))throw new Error('不支持的配置项');for(const [key,max] of [['subtitle',120],['title',120],['note',2000],['footer',200]])if(key in input&&(typeof input[key]!=='string'||input[key].length>max))throw new Error('文字格式或长度不正确');if('currency'in input&&!Object.hasOwn(currencies,input.currency))throw new Error('Unsupported currency');for(const key of ['rushEnabled','noteEnabled'])if(key in input&&typeof input[key]!=='boolean')throw new Error('开关必须为布尔值');if('rushRate'in input&&(!Number.isFinite(input.rushRate)||input.rushRate<1||input.rushRate>100||Math.abs(input.rushRate*100-Math.round(input.rushRate*100))>1e-6))throw new Error('加急倍数需为 1–100，最多两位小数');if('items'in input&&(!Array.isArray(input.items)||input.items.some(i=>!i||typeof i.name!=='string'||i.name.length>200||!Number.isFinite(i.amount)||Math.abs(i.amount)>999999999||Math.abs(i.amount*100-Math.round(i.amount*100))>1e-4)))throw new Error('项目金额或名称无效');const start=input.start??$('start').value,end=input.end??$('end').value;const datePattern=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;if(!datePattern.test(start)||!datePattern.test(end)||!Number.isFinite(Date.parse(start))||!Number.isFinite(Date.parse(end))||end<start)throw new Error('时间范围无效');if('currency'in input){const previous=$('currency').value;$('currency').value=input.currency;switchCurrency(previous);activeCurrency=input.currency}for(const [key,id] of [['subtitle','subtitle'],['title','title'],['start','start'],['end','end'],['rushRate','rush-rate'],['note','note'],['footer','footer']])if(key in input)$(id).value=input[key];for(const [key,id] of [['rushEnabled','rush-enabled'],['noteEnabled','note-enabled']])if(key in input)$(id).checked=input[key];if('items'in input){state.items=input.items.map(i=>({id:state.nextId++,name:i.name,amount:String(i.amount)}));renderItems()}render();return readReceipt()}};try{Promise.resolve(document.modelContext.registerTool(config,{signal:lifecycle.signal})).catch(()=>{});Promise.resolve(document.modelContext.registerTool({name:'read_receipt',title:'读取小票',description:'读取当前小票内容、有效状态及自动计算金额。',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:true},execute:readReceipt},{signal:lifecycle.signal})).catch(()=>{})}catch{}window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true})}
+if(document.modelContext?.registerTool){const lifecycle=new AbortController();const readReceipt=()=>({currency:$('currency').value,subtitle:$('subtitle').value,title:$('title').value,start:$('start').value,end:$('end').value,items:state.items.map(({name,amount})=>({name,amount:Number(amount)})),rushEnabled:$('rush-enabled').checked,rushRate:Number($('rush-rate').value),discountEnabled:$('discount-enabled').checked,discountRate:Number($('discount-rate').value),discountBeforeRush:$('discount-before-rush').checked,discountAmount:getTotals().discount/100,noteEnabled:$('note-enabled').checked,note:$('note').value,footer:$('footer').value,subtotal:getTotals().subtotal/100,rushFee:getTotals().rush/100,total:getTotals().total/100,valid:!!valid().ok});const config={name:'configure_receipt',title:'编辑小票',description:'批量修改小票抬头、明细、时间范围、加急倍数、折扣及备注，并返回自动计算的合计金额。不会下载或上传文件。',inputSchema:{type:'object',properties:{currency:{type:'string',enum:Object.keys(currencies)},subtitle:{type:'string',maxLength:120},title:{type:'string',maxLength:120},start:{type:'string'},end:{type:'string'},items:{type:'array',items:{type:'object',properties:{name:{type:'string',maxLength:200},amount:{type:'number',minimum:-999999999,maximum:999999999}},required:['name','amount'],additionalProperties:false}},rushEnabled:{type:'boolean'},rushRate:{type:'number',minimum:1,maximum:100},discountEnabled:{type:'boolean'},discountRate:{type:'number',minimum:0,maximum:10},discountBeforeRush:{type:'boolean'},noteEnabled:{type:'boolean'},note:{type:'string',maxLength:2000},footer:{type:'string',maxLength:200}},additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:true},execute(input){if(!input||typeof input!=='object'||Array.isArray(input))throw new Error('请提供小票配置对象');const allowed=['currency','subtitle','title','start','end','items','rushEnabled','rushRate','discountEnabled','discountRate','discountBeforeRush','noteEnabled','note','footer'];if(Object.keys(input).some(k=>!allowed.includes(k)))throw new Error('不支持的配置项');for(const [key,max] of [['subtitle',120],['title',120],['note',2000],['footer',200]])if(key in input&&(typeof input[key]!=='string'||input[key].length>max))throw new Error('文字格式或长度不正确');if('currency'in input&&!Object.hasOwn(currencies,input.currency))throw new Error('Unsupported currency');for(const key of ['rushEnabled','discountEnabled','discountBeforeRush','noteEnabled'])if(key in input&&typeof input[key]!=='boolean')throw new Error('开关必须为布尔值');if('rushRate'in input&&(!Number.isFinite(input.rushRate)||input.rushRate<1||input.rushRate>100||Math.abs(input.rushRate*100-Math.round(input.rushRate*100))>1e-6))throw new Error('加急倍数需为 1–100，最多两位小数');if('discountRate'in input&&(!Number.isFinite(input.discountRate)||input.discountRate<0||input.discountRate>10||Math.abs(input.discountRate*100-Math.round(input.discountRate*100))>1e-6))throw new Error('折扣需为 0–10，最多两位小数');if('items'in input&&(!Array.isArray(input.items)||input.items.some(i=>!i||typeof i.name!=='string'||i.name.length>200||!Number.isFinite(i.amount)||Math.abs(i.amount)>999999999||Math.abs(i.amount*100-Math.round(i.amount*100))>1e-4)))throw new Error('项目金额或名称无效');const start=input.start??$('start').value,end=input.end??$('end').value;const datePattern=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;if(!datePattern.test(start)||!datePattern.test(end)||!Number.isFinite(Date.parse(start))||!Number.isFinite(Date.parse(end))||end<start)throw new Error('时间范围无效');if('currency'in input){const previous=$('currency').value;$('currency').value=input.currency;switchCurrency(previous);activeCurrency=input.currency}for(const [key,id] of [['subtitle','subtitle'],['title','title'],['start','start'],['end','end'],['rushRate','rush-rate'],['discountRate','discount-rate'],['note','note'],['footer','footer']])if(key in input)$(id).value=input[key];for(const [key,id] of [['rushEnabled','rush-enabled'],['discountEnabled','discount-enabled'],['discountBeforeRush','discount-before-rush'],['noteEnabled','note-enabled']])if(key in input)$(id).checked=input[key];if('items'in input){state.items=input.items.map(i=>({id:state.nextId++,name:i.name,amount:String(i.amount)}));renderItems()}render();return readReceipt()}};try{Promise.resolve(document.modelContext.registerTool(config,{signal:lifecycle.signal})).catch(()=>{});Promise.resolve(document.modelContext.registerTool({name:'read_receipt',title:'读取小票',description:'读取当前小票内容、有效状态及自动计算金额。',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:true},execute:readReceipt},{signal:lifecycle.signal})).catch(()=>{})}catch{}window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true})}
 </script>
 </body>
 </html>
